@@ -25,12 +25,22 @@ export default function Header() {
         justifyContent: 'space-between',
       }}>
         {/* Logo Brand Image */}
-        <a href="#" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+        <a href="#" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
           <img 
             src="/logo.png" 
-            alt="Iris Premium Logo" 
+            alt="Iris Water Logo" 
             style={{ height: '44px', objectFit: 'contain' }} 
           />
+          <span style={{
+            fontSize: '22px',
+            fontWeight: 900,
+            letterSpacing: '0.04em',
+            color: 'var(--color-primary-ink)',
+            lineHeight: 1,
+            whiteSpace: 'nowrap'
+          }}>
+            IRIS WATER
+          </span>
         </a>
 
         {/* Right Header Navigation: Order Now Button */}
