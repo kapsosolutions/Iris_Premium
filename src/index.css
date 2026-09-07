@@ -92,7 +92,6 @@ html {
   color: var(--color-primary-ink);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  scroll-behavior: smooth;
 }
 
 body {
@@ -102,6 +101,29 @@ body {
   line-height: 1.47;
   letter-spacing: -0.022em;
   overflow-x: hidden;
+}
+
+/* Lenis smooth-scroll required styles.
+   Native CSS smooth scroll must stay OFF so it doesn't fight Lenis (JS). */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
 }
 
 /* Apple Design Rule: Zero Shadow Systemwide */
