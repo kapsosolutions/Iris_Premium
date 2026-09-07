@@ -1,0 +1,110 @@
+{
+  "version": "6.3",
+  "routing_model": {
+    "SERVICE_MENU": []
+  },
+  "screens": [
+    {
+      "id": "SERVICE_MENU",
+      "title": "Select Iris Service",
+      "terminal": true,
+      "success": true,
+      "data": {
+        "welcome_banner": {
+          "type": "string",
+          "__example__": "iVBORw0KGgo"
+        },
+        "has_welcome_banner": {
+          "type": "boolean",
+          "__example__": true
+        },
+        "heading": {
+          "type": "string",
+          "__example__": "Welcome to Iris Premium Bottling Co. ✨"
+        },
+        "subheading": {
+          "type": "string",
+          "__example__": "Select a service below to explore customized water bottles & concierge services:"
+        },
+        "services": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "title": { "type": "string" },
+              "description": { "type": "string" },
+              "image": { "type": "string" }
+            },
+            "required": ["id", "title"]
+          },
+          "__example__": [
+            {
+              "id": "book_order",
+              "title": "Book Order",
+              "description": "Browse bottle catalog & 24K gold foil",
+              "image": "iVBORw0KGgo"
+            },
+            {
+              "id": "my_orders",
+              "title": "My Orders",
+              "description": "View history & custom proof status",
+              "image": "iVBORw0KGgo"
+            },
+            {
+              "id": "track_order",
+              "title": "Track Order",
+              "description": "Live dispatch timeline",
+              "image": "iVBORw0KGgo"
+            },
+            {
+              "id": "contact_us",
+              "title": "Contact Us",
+              "description": "Plant address & Google Maps",
+              "image": "iVBORw0KGgo"
+            }
+          ]
+        }
+      },
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {
+            "type": "Image",
+            "src": "${data.welcome_banner}",
+            "width": 1000,
+            "height": 125,
+            "scale-type": "cover",
+            "alt-text": "Iris Premium Bottling Co.",
+            "visible": "${data.has_welcome_banner}"
+          },
+          {
+            "type": "TextHeading",
+            "text": "${data.heading}"
+          },
+          {
+            "type": "TextSubheading",
+            "text": "${data.subheading}"
+          },
+          {
+            "type": "Dropdown",
+            "name": "selected_service",
+            "label": "Select Iris Service",
+            "required": true,
+            "data-source": "${data.services}"
+          },
+          {
+            "type": "Footer",
+            "label": "Continue",
+            "on-click-action": {
+              "name": "complete",
+              "payload": {
+                "selected_service": "${form.selected_service}"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "version": "6.3",
+  "routing_model": {
+    "CHECKOUT_SCREEN": []
+  },
+  "screens": [
+    {
+      "id": "CHECKOUT_SCREEN",
+      "title": "Bespoke Order Checkout",
+      "terminal": true,
+      "success": true,
+      "data": {
+        "whatsapp_number": {
+          "type": "string",
+          "__example__": "919632498664"
+        }
+      },
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {
+            "type": "TextHeading",
+            "text": "Bespoke Monogram Bottling"
+          },
+          {
+            "type": "TextBody",
+            "text": "Complete your details below to finalize artwork proof & delivery schedule:"
+          },
+          {
+            "type": "TextInput",
+            "name": "customer_name",
+            "label": "Full Name",
+            "required": true,
+            "input-type": "text"
+          },
+          {
+            "type": "TextInput",
+            "name": "branding_name",
+            "label": "Branding / Logo Name to Print",
+            "required": true,
+            "input-type": "text"
+          },
+          {
+            "type": "TextInput",
+            "name": "whatsapp_number",
+            "label": "WhatsApp Number (Locked)",
+            "enabled": false,
+            "input-type": "phone"
+          },
+          {
+            "type": "TextInput",
+            "name": "phone_number",
+            "label": "Alternate Contact Phone Number",
+            "required": true,
+            "input-type": "phone"
+          },
+          {
+            "type": "DatePicker",
+            "name": "delivery_date",
+            "label": "Select Preferred Delivery Date",
+            "required": true
+          },
+          {
+            "type": "DocumentPicker",
+            "name": "brand_logo_doc",
+            "label": "Upload Logo",
+            "max-uploaded-documents": 3,
+            "max-file-size-kb": 10240
+          },
+          {
+            "type": "Footer",
+            "label": "Confirm & Share Location",
+            "on-click-action": {
+              "name": "complete",
+              "payload": {
+                "customer_name": "${form.customer_name}",
+                "branding_name": "${form.branding_name}",
+                "whatsapp_number": "${form.whatsapp_number}",
+                "phone_number": "${form.phone_number}",
+                "delivery_date": "${form.delivery_date}",
+                "brand_logo_doc": "${form.brand_logo_doc}"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

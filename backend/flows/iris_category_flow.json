@@ -1,0 +1,54 @@
+{
+  "version": "6.3",
+  "routing_model": {
+    "CATEGORY_MENU": []
+  },
+  "screens": [
+    {
+      "id": "CATEGORY_MENU",
+      "title": "Select Bottle Purpose / Event",
+      "terminal": true,
+      "success": true,
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {
+            "type": "RadioButtonsGroup",
+            "name": "selected_category",
+            "label": "Select Bottle Purpose / Event",
+            "required": true,
+            "data-source": [
+              { "id": "purpose_all", "title": "All Bottle Models", "description": "View entire artesian spring water collection" },
+              { "id": "purpose_weddings", "title": "Marriages / Weddings", "description": "Personalized wedding monogram bottles" },
+              { "id": "purpose_family", "title": "Family Functions", "description": "Custom celebration water bottles" },
+              { "id": "purpose_hotels", "title": "Hotels & Resorts", "description": "Luxury hospitality artesian glass carafes" },
+              { "id": "purpose_restaurants", "title": "Restaurants & Cafes", "description": "Fine dining custom artesian spring water" },
+              { "id": "purpose_bus", "title": "Bus Travels", "description": "Convenient travel hydration bottles" },
+              { "id": "purpose_hospitals", "title": "Hospitals", "description": "Hygienic pure artesian spring water" },
+              { "id": "purpose_malls", "title": "Shopping Malls", "description": "Custom branded retail shopping bottles" },
+              { "id": "purpose_house", "title": "House Purpose", "description": "Premium household artesian water" },
+              { "id": "purpose_political", "title": "Political Events", "description": "Campaign event branded water bottles" },
+              { "id": "purpose_jewelry", "title": "Jewelry Shops", "description": "VIP client luxury welcome bottles" },
+              { "id": "purpose_car", "title": "Car / Bike Showrooms", "description": "Showroom customer hospitality bottles" },
+              { "id": "purpose_corporates", "title": "Corporates & Summits", "description": "Custom logo bulk corporate event bottles" },
+              { "id": "purpose_caterings", "title": "Caterings & Events", "description": "Bulk catering event hydration" },
+              { "id": "purpose_small_shops", "title": "Small Shops & Outlets", "description": "Local shop retail water bottles" },
+              { "id": "purpose_schools", "title": "Schools & Colleges", "description": "Campus event hydration bottles" },
+              { "id": "purpose_festivals", "title": "Festivals & Celebrations", "description": "Festival & grand celebration bottles" }
+            ]
+          },
+          {
+            "type": "Footer",
+            "label": "View Matching Products",
+            "on-click-action": {
+              "name": "complete",
+              "payload": {
+                "selected_category": "${form.selected_category}"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,252 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  /* Apple (España) Palette Tokens */
+  --color-primary-ink: #1d1d1f;
+  --gradient-primary-ink: linear-gradient(184deg, #1d1d1f 20%, #0000f9 76%, #252525 95%);
+  --color-mid-gray: #707070;
+  --color-deep-gray: #474747;
+  --color-hairline: #d6d6d6;
+  --color-canvas: #f5f5f7;
+  --color-paper: #ffffff;
+  --color-cool-wash: #e8e8ed;
+  --color-faded-surface: #fafafc;
+  --color-quiet-dot: #777779;
+  --color-electric-blue: #0071e3;
+  --color-link-blue: #0066cc;
+  --color-ember: #b64400;
+  --color-sky: #c8d8e0;
+  --color-citrus: #dddc8c;
+  --color-starlight: #f0e4d3;
+  --color-silver: #e3e4e5;
+  --color-blush: #e8d0d0;
+  --color-indigo: #596680;
+  --color-midnight: #2e3642;
+
+  /* Typography — Font Families */
+  --font-sf-pro-display: 'Inter', -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  --font-sf-pro-text: 'Inter', -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+
+  /* Typography — Scale */
+  --text-micro: 12px;
+  --text-caption: 14px;
+  --text-body-sm: 17px;
+  --text-body: 21px;
+  --text-body-lg: 28px;
+  --text-subheading: 32px;
+  --text-heading-sm: 40px;
+  --text-heading: 56px;
+  --text-heading-lg: 80px;
+  --text-display: 96px;
+
+  /* Weights */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Spacing */
+  --spacing-4: 4px;
+  --spacing-8: 8px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  --spacing-20: 20px;
+  --spacing-24: 24px;
+  --spacing-28: 28px;
+  --spacing-32: 32px;
+  --spacing-40: 40px;
+  --spacing-44: 44px;
+  --spacing-48: 48px;
+  --spacing-80: 80px;
+  --spacing-120: 120px;
+
+  /* Layout */
+  --page-max-width: 1200px;
+  --section-gap: 100px;
+
+  /* Border Radii */
+  --radius-cards: 28px;
+  --radius-links: 10px;
+  --radius-badges: 36px;
+  --radius-buttons: 980px;
+  --radius-smallbuttons: 999px;
+  --radius-productimages: 28px;
+
+  /* Surfaces */
+  --surface-canvas-white: #ffffff;
+  --surface-canvas-gray: #f5f5f7;
+  --surface-hover-wash: #e8e8ed;
+  --surface-nav-elevated: #fafafc;
+}
+
+/* Global Reset & Base Styles */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: var(--font-sf-pro-text);
+  background-color: var(--surface-canvas-white);
+  color: var(--color-primary-ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--surface-canvas-white);
+  color: var(--color-primary-ink);
+  font-size: var(--text-body-sm);
+  line-height: 1.47;
+  letter-spacing: -0.022em;
+  overflow-x: hidden;
+}
+
+/* Apple Design Rule: Zero Shadow Systemwide */
+*, *::before, *::after {
+  box-shadow: none !important;
+}
+
+a {
+  color: var(--color-link-blue);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  font-family: var(--font-sf-pro-text);
+  cursor: pointer;
+  background: transparent;
+  border: none;
+}
+
+input, select, textarea {
+  font-family: var(--font-sf-pro-text);
+}
+
+/* Buttons */
+.btn-pill-primary {
+  background-color: var(--color-electric-blue);
+  color: #ffffff;
+  font-family: var(--font-sf-pro-text);
+  font-size: 17px;
+  font-weight: 400;
+  padding: 11px 22px;
+  border-radius: var(--radius-buttons);
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+  cursor: pointer;
+  text-decoration: none !important;
+}
+
+.btn-pill-primary:hover {
+  background-color: #0077ed;
+  color: #ffffff;
+}
+
+.btn-pill-ghost {
+  background-color: transparent;
+  color: var(--color-primary-ink);
+  font-family: var(--font-sf-pro-text);
+  font-size: 17px;
+  font-weight: 400;
+  padding: 11px 22px;
+  border-radius: var(--radius-buttons);
+  border: 1px solid var(--color-primary-ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  cursor: pointer;
+  text-decoration: none !important;
+}
+
+.btn-pill-ghost:hover {
+  background-color: var(--color-cool-wash);
+}
+
+.link-arrow {
+  color: var(--color-link-blue);
+  font-size: 17px;
+  font-weight: 400;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.link-arrow:hover {
+  text-decoration: underline;
+}
+
+/* Apple Cards & Surfaces */
+.apple-card {
+  background-color: var(--color-paper);
+  border-radius: var(--radius-cards);
+  border: none;
+  padding: 32px;
+  transition: transform 0.2s ease;
+}
+
+.apple-card-gray {
+  background-color: var(--color-canvas);
+  border-radius: var(--radius-cards);
+  border: none;
+  padding: 32px;
+}
+
+.apple-badge-ember {
+  color: var(--color-ember);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+/* Product Showcase Grid */
+.product-row-grid {
+  max-width: var(--page-max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 28px;
+}
+
+/* Typography Utilities */
+.display-title {
+  font-family: var(--font-sf-pro-display);
+  font-size: clamp(48px, 8vw, 84px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--color-primary-ink);
+}
+
+.section-title {
+  font-family: var(--font-sf-pro-display);
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  color: var(--color-primary-ink);
+}
+
+.subheading-title {
+  font-family: var(--font-sf-pro-display);
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: 0.007em;
+  color: var(--color-primary-ink);
+}
