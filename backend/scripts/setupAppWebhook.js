@@ -6,11 +6,12 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: path.join(__dirname, '..', '.env') });
 
-const APP_ID = process.env.APP_ID || '4564195660518860';
-const APP_SECRET = process.env.APP_SECRET || '82c3ba9490a6faca5cf060b1c795a000';
+const APP_ID = process.env.APP_ID;
+const APP_SECRET = process.env.APP_SECRET;
 const TOKEN = process.env.META_ACCESS_TOKEN;
-const WEBHOOK_URL = 'https://4beb-2409-40f0-540b-3805-9d00-8d54-fa17-f365.ngrok-free.app/api/whatsapp/webhook';
-const VERIFY_TOKEN = 'iris_verify_token';
+const PUBLIC_SERVER_URL = process.env.PUBLIC_SERVER_URL || 'https://iris-premium.onrender.com';
+const WEBHOOK_URL = `${PUBLIC_SERVER_URL}/api/whatsapp/webhook`;
+const VERIFY_TOKEN = process.env.WA_VERIFY_TOKEN || 'iris_verify_token';
 const GRAPH = 'https://graph.facebook.com/v21.0';
 
 async function configureWebhook() {

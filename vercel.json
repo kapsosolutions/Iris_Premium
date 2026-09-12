@@ -1,0 +1,20 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://iris-premium.onrender.com/api/:path*"
+    },
+    {
+      "source": "/uploads/:path*",
+      "destination": "https://iris-premium.onrender.com/uploads/:path*"
+    },
+    {
+      "source": "/invoices/:path*",
+      "destination": "https://iris-premium.onrender.com/invoices/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
