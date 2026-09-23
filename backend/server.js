@@ -141,9 +141,69 @@ app.use('/api/leads', leadRoutes);
 app.use('/api/crm', whatsappCrmRoutes);
 app.use('/api/brands', brandRoutes);
 
-// Health Check
+// System Status Report Helper
+function getStatusReport() {
+  const dbState = mongoose.connection.readyState;
+  const dbStatusMap = {
+    0: 'disconnected',
+    1: 'connected',
+    2: 'connecting',
+    3: 'disconnecting'
+  };
+
+  return {
+    project: {
+      name: 'Iris Premium Bottling Co. — Backend API',
+      status: 'OPERATIONAL',
+      version: '1.0.0',
+      uptimeSeconds: Math.floor(process.uptime()),
+      timestamp: new Date().toISOString()
+    },
+    database: {
+      provider: 'MongoDB Atlas',
+      status: dbStatusMap[dbState] || 'unknown',
+      connected: dbState === 1
+    },
+    services: {
+      cloudinary: {
+        configured: Boolean(process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY),
+        status: process.env.CLOUDINARY_CLOUD_NAME ? 'active' : 'unconfigured',
+        cloudName: process.env.CLOUDINARY_CLOUD_NAME || null
+      },
+      metaWhatsApp: {
+        configured: Boolean(process.env.META_ACCESS_TOKEN && process.env.WABA_ID),
+        status: process.env.META_ACCESS_TOKEN ? 'active' : 'unconfigured',
+        wabaId: process.env.WABA_ID || null,
+        catalogId: process.env.META_CATALOG_ID || null
+      }
+    },
+    endpoints: {
+      root: { path: '/', method: 'GET', description: 'System and endpoint status', status: 'ACTIVE' },
+      health: { path: '/health', method: 'GET', description: 'Health check probe', status: 'ACTIVE' },
+      whatsappWebhook: { path: '/api/whatsapp/webhook', methods: ['GET', 'POST'], description: 'Meta WhatsApp webhook & message handler', status: 'ACTIVE' },
+      whatsappFlowEndpoint: { path: '/api/whatsapp/flow-endpoint', methods: ['GET', 'POST'], description: 'Meta interactive flow data exchange', status: 'ACTIVE' },
+      products: { path: '/api/products', methods: ['GET', 'POST', 'PUT', 'DELETE'], description: 'Product catalogue management & Meta sync', status: 'ACTIVE' },
+      brands: { path: '/api/brands', methods: ['GET', 'POST', 'PUT', 'DELETE'], description: 'Client & partner brand logos management', status: 'ACTIVE' },
+      orders: { path: '/api/orders', methods: ['GET', 'POST', 'PUT', 'DELETE'], description: 'Customer orders and invoice handling', status: 'ACTIVE' },
+      flowAssets: { path: '/api/flow-assets', methods: ['GET', 'POST', 'PUT'], description: 'Meta flow banners and dropdown icons', status: 'ACTIVE' },
+      leads: { path: '/api/leads', methods: ['GET', 'POST'], description: 'Customer leads and quotes capture', status: 'ACTIVE' },
+      crm: { path: '/api/crm', methods: ['GET', 'POST'], description: 'WhatsApp live chat CRM & conversation management', status: 'ACTIVE' },
+      contact: { path: '/api/contact', methods: ['GET', 'PUT'], description: 'Plant address, telephone and support details', status: 'ACTIVE' },
+      adminAuth: { path: '/api/admin', methods: ['POST', 'GET'], description: 'Admin authentication and session validation', status: 'ACTIVE' },
+      uploads: { path: '/uploads', method: 'GET', description: 'Static assets & locally uploaded documents/images', status: 'ACTIVE' }
+    }
+  };
+}
+
+// Root URL & Health Check — Returns Live Project Status & Endpoint Status in JSON
+app.get('/', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.json(getStatusReport());
+});
+
 app.get('/health', (req, res) => {
-  res.json({ status: 'OK', service: 'Iris Premium Backend API', timestamp: new Date() });
+  res.setHeader('Content-Type', 'application/json');
+  res.json(getStatusReport());
 });
 
 // Start Server
