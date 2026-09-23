@@ -12,10 +12,12 @@ import adminAuthRoutes from './routes/adminAuth.js';
 import contactRoutes from './routes/contact.js';
 import leadRoutes from './routes/leads.js';
 import whatsappCrmRoutes from './routes/whatsappCrm.js';
+import brandRoutes from './routes/brands.js';
 
 import Product from './models/Product.js';
 import FlowAsset from './models/FlowAsset.js';
 import ContactSettings from './models/ContactSettings.js';
+import Brand from './models/Brand.js';
 
 dotenv.config();
 
@@ -104,6 +106,25 @@ async function seedDatabase() {
       });
     }
 
+    // 4. Seed Initial Brands if empty
+    const brandCount = await Brand.countDocuments();
+    if (brandCount === 0) {
+      console.log('🏷️ Seeding initial client brands...');
+      await Brand.insertMany([
+        { name: 'Mahindra', imageUrl: '/uploads/brands/1.png', order: 1, active: true },
+        { name: 'HR Restaurant', imageUrl: '/uploads/brands/2.png', order: 2, active: true },
+        { name: 'SSA Biriyani', imageUrl: '/uploads/brands/3.png', order: 3, active: true },
+        { name: 'Hotel Riyaz Family Restaurant', imageUrl: '/uploads/brands/4.png', order: 4, active: true },
+        { name: 'Barkaas Arabic Restaurant', imageUrl: '/uploads/brands/5.png', order: 5, active: true },
+        { name: 'Ford', imageUrl: '/uploads/brands/6.png', order: 6, active: true },
+        { name: 'Sairam Mallareddy Family Dhaba', imageUrl: '/uploads/brands/7.png', order: 7, active: true },
+        { name: 'Royalaseema Restaurant', imageUrl: '/uploads/brands/8.png', order: 8, active: true },
+        { name: 'Nellore Spice Multicuisine', imageUrl: '/uploads/brands/9.png', order: 9, active: true },
+        { name: 'Sri Simhapuri Glass & Plywoods', imageUrl: '/uploads/brands/10.png', order: 10, active: true }
+      ]);
+      console.log('✅ 10 initial client brands seeded.');
+    }
+
   } catch (err) {
     console.error('Database seed error:', err.message);
   }
@@ -118,6 +139,7 @@ app.use('/api/admin', adminAuthRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/leads', leadRoutes);
 app.use('/api/crm', whatsappCrmRoutes);
+app.use('/api/brands', brandRoutes);
 
 // Health Check
 app.get('/health', (req, res) => {

@@ -1,161 +1,92 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
+const defaultBrands = [
+  { _id: '1', name: 'Mahindra', imageUrl: '/uploads/brands/1.png' },
+  { _id: '2', name: 'HR Restaurant', imageUrl: '/uploads/brands/2.png' },
+  { _id: '3', name: 'SSA Biriyani', imageUrl: '/uploads/brands/3.png' },
+  { _id: '4', name: 'Hotel Riyaz Family Restaurant', imageUrl: '/uploads/brands/4.png' },
+  { _id: '5', name: 'Barkaas Arabic Restaurant', imageUrl: '/uploads/brands/5.png' },
+  { _id: '6', name: 'Ford', imageUrl: '/uploads/brands/6.png' },
+  { _id: '7', name: 'Sairam Mallareddy Family Dhaba', imageUrl: '/uploads/brands/7.png' },
+  { _id: '8', name: 'Royalaseema Restaurant', imageUrl: '/uploads/brands/8.png' },
+  { _id: '9', name: 'Nellore Spice Multicuisine', imageUrl: '/uploads/brands/9.png' },
+  { _id: '10', name: 'Sri Simhapuri Glass & Plywoods', imageUrl: '/uploads/brands/10.png' }
+];
+
 export default function BrandTickerSection() {
-  // Real SVG Brand Logos (Apple Pure White Background & Scaled Up Sizes)
-  const row1Logos = [
-    {
-      name: 'Canva',
-      svg: (
-        <svg height="42" viewBox="0 0 130 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="20" cy="21" r="18" fill="#00C4CC"/>
-          <text x="20" y="27" fill="#FFFFFF" fontSize="18" fontWeight="800" textAnchor="middle" fontFamily="sans-serif">Canva</text>
-        </svg>
-      )
-    },
-    {
-      name: 'Capgemini',
-      svg: (
-        <svg height="42" viewBox="0 0 170 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <text x="5" y="28" fill="#1D1D1F" fontSize="24" fontWeight="700" fontFamily="sans-serif">Capgemini ♠</text>
-        </svg>
-      )
-    },
-    {
-      name: 'Cisco',
-      svg: (
-        <svg height="44" viewBox="0 0 130 46" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 24V14M30 30V10M48 36V4M66 36V4M84 30V10M102 24V14" stroke="#0071E3" strokeWidth="5" strokeLinecap="round"/>
-          <text x="57" y="44" fill="#1D1D1F" fontSize="15" fontWeight="800" textAnchor="middle" fontFamily="sans-serif">CISCO</text>
-        </svg>
-      )
-    },
-    {
-      name: 'Experian',
-      svg: (
-        <svg height="42" viewBox="0 0 150 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="2" y="10" width="8" height="8" fill="#0071E3"/>
-          <rect x="12" y="2" width="8" height="8" fill="#0071E3"/>
-          <rect x="12" y="18" width="8" height="8" fill="#0071E3"/>
-          <text x="30" y="28" fill="#1D1D1F" fontSize="23" fontWeight="700" fontFamily="sans-serif">experian</text>
-        </svg>
-      )
-    },
-    {
-      name: 'ExpressVPN',
-      svg: (
-        <svg height="42" viewBox="0 0 175 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M5 10C5 10 22 21 5 32" stroke="#FF5A5F" strokeWidth="6" strokeLinecap="round"/>
-          <text x="30" y="28" fill="#1D1D1F" fontSize="22" fontWeight="700" fontFamily="sans-serif">ExpressVPN</text>
-        </svg>
-      )
-    },
-    {
-      name: 'Rakuten',
-      svg: (
-        <svg height="42" viewBox="0 0 140 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <text x="0" y="26" fill="#BF0000" fontSize="26" fontWeight="900" fontFamily="sans-serif">Rakuten</text>
-          <path d="M0 34H96" stroke="#BF0000" strokeWidth="4"/>
-        </svg>
-      )
-    },
-    {
-      name: 'Red Bull',
-      svg: (
-        <svg height="42" viewBox="0 0 150 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="16" cy="21" r="14" fill="#FFCC00"/>
-          <text x="38" y="28" fill="#DB0A40" fontSize="23" fontWeight="900" fontFamily="sans-serif">Red Bull</text>
-        </svg>
-      )
-    }
-  ];
+  const [brands, setBrands] = useState(defaultBrands);
 
-  const row2Logos = [
-    {
-      name: 'Replit',
-      svg: (
-        <svg height="42" viewBox="0 0 140 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M4 8H18V18H4V8ZM18 18H32V28H18V18ZM4 28H18V38H4V28Z" fill="#F26207"/>
-          <text x="40" y="28" fill="#1D1D1F" fontSize="23" fontWeight="700" fontFamily="sans-serif">replit</text>
-        </svg>
-      )
-    },
-    {
-      name: 'Roblox',
-      svg: (
-        <svg height="42" viewBox="0 0 150 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="2" y="6" width="28" height="28" rx="5" transform="rotate(-12 16 20)" fill="#000000"/>
-          <rect x="11" y="15" width="10" height="10" rx="2" transform="rotate(-12 16 20)" fill="#FFFFFF"/>
-          <text x="42" y="28" fill="#1D1D1F" fontSize="25" fontWeight="900" letterSpacing="1px" fontFamily="sans-serif">ROBLOX</text>
-        </svg>
-      )
-    },
-    {
-      name: 'Sega',
-      svg: (
-        <svg height="42" viewBox="0 0 130 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <text x="0" y="30" fill="#006699" fontSize="30" fontWeight="900" fontStyle="italic" letterSpacing="3px" fontFamily="sans-serif">SEGA</text>
-        </svg>
-      )
-    },
-    {
-      name: 'Marriott',
-      svg: (
-        <svg height="42" viewBox="0 0 160 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M8 34V8L20 34L32 8V34" stroke="#A6192E" strokeWidth="5" strokeLinejoin="round"/>
-          <text x="42" y="28" fill="#1D1D1F" fontSize="21" fontWeight="700" letterSpacing="2px" fontFamily="sans-serif">MARRIOTT</text>
-        </svg>
-      )
-    },
-    {
-      name: 'Taj Hotels',
-      svg: (
-        <svg height="42" viewBox="0 0 140 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M16 6L6 36H26L16 6Z" fill="#B38E46"/>
-          <text x="34" y="28" fill="#1D1D1F" fontSize="23" fontWeight="800" letterSpacing="3px" fontFamily="sans-serif">TAJ</text>
-        </svg>
-      )
-    },
-    {
-      name: 'Hyatt',
-      svg: (
-        <svg height="42" viewBox="0 0 130 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <text x="0" y="28" fill="#0071E3" fontSize="26" fontWeight="700" letterSpacing="4px" fontFamily="sans-serif">HYATT</text>
-        </svg>
-      )
-    },
-    {
-      name: 'Hilton',
-      svg: (
-        <svg height="42" viewBox="0 0 140 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <text x="0" y="28" fill="#002663" fontSize="26" fontWeight="800" letterSpacing="3px" fontFamily="sans-serif">Hilton</text>
-        </svg>
-      )
-    }
-  ];
+  useEffect(() => {
+    let isMounted = true;
+    fetch('/api/brands')
+      .then(res => res.json())
+      .then(data => {
+        if (isMounted && data.success && Array.isArray(data.data) && data.data.length > 0) {
+          setBrands(data.data);
+        }
+      })
+      .catch(() => {
+        // Fallback to defaultBrands on network or local dev mismatch
+      });
 
-  // Tripled lists for seamless infinite loop
-  const row1Doubled = [...row1Logos, ...row1Logos, ...row1Logos];
-  const row2Doubled = [...row2Logos, ...row2Logos, ...row2Logos];
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  // Split or offset brands into two lively rows
+  const row1List = brands;
+  const row2List = brands.length > 5
+    ? [...brands.slice(Math.ceil(brands.length / 2)), ...brands.slice(0, Math.ceil(brands.length / 2))]
+    : brands;
+
+  // Tripled/Quadrupled lists for seamless infinite loop
+  const row1Doubled = [...row1List, ...row1List, ...row1List, ...row1List];
+  const row2Doubled = [...row2List, ...row2List, ...row2List, ...row2List];
 
   return (
     <section style={{
       backgroundColor: 'rgb(253, 253, 253)',
-      padding: '36px 0',
+      padding: '42px 0 48px',
       overflow: 'hidden',
       position: 'relative',
       width: '100%',
-      border: 'none',
+      borderTop: '1px solid rgba(0, 0, 0, 0.04)',
+      borderBottom: '1px solid rgba(0, 0, 0, 0.04)',
       boxShadow: 'none'
     }}>
-      <div style={{ maxWidth: 'var(--page-max-width)', margin: '0 auto', padding: '0 24px 20px', textAlign: 'center' }}>
-        <span className="apple-badge-ember" style={{ display: 'inline-block' }}>
-          TRUSTED BY PREMIER HOTELS & GLOBAL BRANDS
+      <div style={{ maxWidth: 'var(--page-max-width)', margin: '0 auto', padding: '0 24px 26px', textAlign: 'center' }}>
+        <span className="apple-badge-ember" style={{ display: 'inline-block', letterSpacing: '0.08em' }}>
+          TRUSTED BY PREMIER CLIENTS & BRANDS
         </span>
       </div>
 
-      {/* Row 1: Left to Right Marquee */}
-      <div style={{ display: 'flex', overflow: 'hidden', width: '100%', marginBottom: '20px', position: 'relative' }}>
+      {/* Row 1: Left to Right Smooth Marquee */}
+      <div style={{ display: 'flex', overflow: 'hidden', width: '100%', marginBottom: '22px', position: 'relative' }}>
+        {/* Left Fade Gradient Mask */}
+        <div style={{
+          position: 'absolute',
+          left: 0,
+          top: 0,
+          bottom: 0,
+          width: '110px',
+          background: 'linear-gradient(to right, rgb(253, 253, 253), rgba(253, 253, 253, 0))',
+          zIndex: 2,
+          pointerEvents: 'none'
+        }} />
+        {/* Right Fade Gradient Mask */}
+        <div style={{
+          position: 'absolute',
+          right: 0,
+          top: 0,
+          bottom: 0,
+          width: '110px',
+          background: 'linear-gradient(to left, rgb(253, 253, 253), rgba(253, 253, 253, 0))',
+          zIndex: 2,
+          pointerEvents: 'none'
+        }} />
+
         <motion.div
           animate={{ x: ['-50%', '0%'] }}
           transition={{
@@ -164,27 +95,73 @@ export default function BrandTickerSection() {
             duration: 32,
             ease: 'linear'
           }}
-          style={{ display: 'flex', gap: '36px', whiteSpace: 'nowrap', alignItems: 'center' }}
+          style={{ display: 'flex', gap: '48px', whiteSpace: 'nowrap', alignItems: 'center' }}
         >
           {row1Doubled.map((item, idx) => (
             <div
-              key={idx}
+              key={`row1-${item._id || idx}-${idx}`}
               style={{
-                display: 'flex',
+                display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                padding: '4px 12px',
-                opacity: 0.9
+                background: 'transparent',
+                border: 'none',
+                boxShadow: 'none',
+                padding: '4px 10px',
+                flexShrink: 0,
+                transition: 'transform 0.25s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'scale(1.1)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
               }}
             >
-              {item.svg}
+              <img
+                src={item.imageUrl}
+                alt={item.name}
+                loading="lazy"
+                style={{
+                  maxHeight: '62px',
+                  maxWidth: '160px',
+                  width: 'auto',
+                  height: 'auto',
+                  objectFit: 'contain',
+                  display: 'block',
+                  filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.06))'
+                }}
+              />
             </div>
           ))}
         </motion.div>
       </div>
 
-      {/* Row 2: Right to Left Marquee */}
+      {/* Row 2: Right to Left Smooth Marquee */}
       <div style={{ display: 'flex', overflow: 'hidden', width: '100%', position: 'relative' }}>
+        {/* Left Fade Gradient Mask */}
+        <div style={{
+          position: 'absolute',
+          left: 0,
+          top: 0,
+          bottom: 0,
+          width: '110px',
+          background: 'linear-gradient(to right, rgb(253, 253, 253), rgba(253, 253, 253, 0))',
+          zIndex: 2,
+          pointerEvents: 'none'
+        }} />
+        {/* Right Fade Gradient Mask */}
+        <div style={{
+          position: 'absolute',
+          right: 0,
+          top: 0,
+          bottom: 0,
+          width: '110px',
+          background: 'linear-gradient(to left, rgb(253, 253, 253), rgba(253, 253, 253, 0))',
+          zIndex: 2,
+          pointerEvents: 'none'
+        }} />
+
         <motion.div
           animate={{ x: ['0%', '-50%'] }}
           transition={{
@@ -193,25 +170,47 @@ export default function BrandTickerSection() {
             duration: 32,
             ease: 'linear'
           }}
-          style={{ display: 'flex', gap: '36px', whiteSpace: 'nowrap', alignItems: 'center' }}
+          style={{ display: 'flex', gap: '48px', whiteSpace: 'nowrap', alignItems: 'center' }}
         >
           {row2Doubled.map((item, idx) => (
             <div
-              key={idx}
+              key={`row2-${item._id || idx}-${idx}`}
               style={{
-                display: 'flex',
+                display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                padding: '4px 12px',
-                opacity: 0.9
+                background: 'transparent',
+                border: 'none',
+                boxShadow: 'none',
+                padding: '4px 10px',
+                flexShrink: 0,
+                transition: 'transform 0.25s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'scale(1.1)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
               }}
             >
-              {item.svg}
+              <img
+                src={item.imageUrl}
+                alt={item.name}
+                loading="lazy"
+                style={{
+                  maxHeight: '62px',
+                  maxWidth: '160px',
+                  width: 'auto',
+                  height: 'auto',
+                  objectFit: 'contain',
+                  display: 'block',
+                  filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.06))'
+                }}
+              />
             </div>
           ))}
         </motion.div>
       </div>
-
     </section>
   );
 }

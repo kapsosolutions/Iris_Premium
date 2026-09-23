@@ -8,11 +8,13 @@ const TOKEN = process.env.META_ACCESS_TOKEN;
 
 // Currently active flow IDs in application
 const ACTIVE_FLOW_IDS = [
-  process.env.META_FLOW_CHOOSE_SERVICE_ID || '1137012078787664',
-  process.env.META_FLOW_BOOK_ORDER_ID || '2393197257997865',
-  process.env.META_FLOW_MY_ORDERS_ID || '1080099797850675',
-  process.env.META_FLOW_TRACK_ORDER_ID || '1420101556708285'
-];
+  process.env.META_FLOW_CHOOSE_SERVICE_ID,
+  process.env.META_FLOW_CATEGORY_ID,
+  process.env.META_FLOW_CHECKOUT_ID,
+  process.env.META_FLOW_BOOK_ORDER_ID,
+  process.env.META_FLOW_MY_ORDERS_ID,
+  process.env.META_FLOW_TRACK_ORDER_ID
+].filter(Boolean);
 
 async function inspectAndDeprecateUnusedFlows() {
   try {

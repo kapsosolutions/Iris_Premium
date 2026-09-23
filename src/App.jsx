@@ -17,6 +17,7 @@ import AdminLayout from './components/admin/AdminLayout';
 import AdminLogin from './components/admin/AdminLogin';
 import AdminDashboard from './components/admin/AdminDashboard';
 import AdminProducts from './components/admin/AdminProducts';
+import AdminBrands from './components/admin/AdminBrands';
 import AdminWhatsAppCRM from './components/admin/AdminWhatsAppCRM';
 import AdminFlowImages from './components/admin/AdminFlowImages';
 import AdminOrders from './components/admin/AdminOrders';
@@ -105,6 +106,7 @@ export default function App() {
       >
         {adminTab === 'dashboard' && <AdminDashboard />}
         {adminTab === 'products' && <AdminProducts />}
+        {adminTab === 'brands' && <AdminBrands />}
         {adminTab === 'whatsapp-crm' && <AdminWhatsAppCRM isFullView={false} />}
         {adminTab === 'flow-images' && <AdminFlowImages />}
         {adminTab === 'orders' && <AdminOrders />}
