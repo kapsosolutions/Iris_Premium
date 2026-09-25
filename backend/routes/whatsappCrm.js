@@ -256,6 +256,143 @@ router.get('/contacts/export', async (req, res) => {
 // MESSAGES IN THREAD
 // ============================================================================
 
+// Build a structured "rich" payload from the message so the CRM renders
+// headers, image banners, body and buttons exactly like WhatsApp
+function buildRichMessage(m, dir) {
+  if (m.rich && typeof m.rich === 'object' && m.rich.kind) {
+    return m.rich;
+  }
+
+  const raw = m.raw || {};
+  let body = String(m.body || '').trim();
+  const mediaUrl = m.mediaUrl || raw.headerImageUrl || raw.outbound?.headerImageUrl || '';
+  const messageType = m.messageType || m.type || '';
+
+  // Inbound order
+  if (dir === 'in' && (messageType === 'order' || raw.order)) {
+    const order = raw.order || {};
+    const items = (order.product_items || []).map((it) => ({
+      name: it.name || it.product_retailer_id || 'Bottle Product',
+      variantLabel: it.variantLabel || '',
+      image: it.image || '',
+      qty: Number(it.quantity || 1),
+      price: Number(it.item_price || 0),
+      currency: it.currency || 'INR',
+      lineTotal: Number(it.quantity || 1) * Number(it.item_price || 0)
+    }));
+    return {
+      kind: 'order',
+      items: items.length > 0 ? items : [{ name: body || 'Water Bottles Order', qty: 1, price: 0, lineTotal: 0, currency: 'INR' }],
+      total: items.reduce((s, i) => s + i.lineTotal, 0),
+      currency: 'INR',
+      note: order.text || ''
+    };
+  }
+
+  // Inbound location
+  if (dir === 'in' && (messageType === 'location' || raw.location)) {
+    const loc = raw.location || {};
+    const mapUrl = loc.latitude != null && loc.longitude != null
+      ? `https://www.google.com/maps/search/?api=1&query=${loc.latitude},${loc.longitude}`
+      : '';
+    return {
+      kind: 'location',
+      latitude: loc.latitude,
+      longitude: loc.longitude,
+      name: loc.name || '',
+      address: loc.address || body || '',
+      mapUrl
+    };
+  }
+
+  // Inbound form flow reply
+  if (dir === 'in' && (messageType === 'flow' || raw?.interactive?.nfm_reply)) {
+    let fields = [];
+    try {
+      const rj = raw?.interactive?.nfm_reply?.response_json;
+      const resp = typeof rj === 'string' ? JSON.parse(rj) : (rj || {});
+      const HIDE = /^(flow_token|_.*|.*token.*|.*version.*)$/i;
+      fields = Object.entries(resp)
+        .filter(([k, v]) => !HIDE.test(k) && v != null && v !== '' && typeof v !== 'object')
+        .map(([k, v]) => ({
+          label: k.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
+          value: String(v)
+        }));
+    } catch { fields = []; }
+    return { kind: 'flow', fields };
+  }
+
+  // Outbound bot or interactive message
+  if (dir === 'out') {
+    const buttons = [];
+    let cta = null;
+    let cleanBody = body;
+
+    // 1. Extract [Interactive Flow Button: Title]
+    const flowBtnMatch = cleanBody.match(/\[Interactive Flow Button:\s*([^\]]+)\]/i);
+    if (flowBtnMatch) {
+      buttons.push({ kind: 'flow', text: flowBtnMatch[1].trim() });
+      cleanBody = cleanBody.replace(/\[Interactive Flow Button:\s*[^\]]+\]/gi, '').trim();
+    }
+
+    // 2. Extract [Interactive Button: Title]
+    const btnMatches = cleanBody.matchAll(/\[Interactive Button:\s*([^\]]+)\]/gi);
+    for (const bm of btnMatches) {
+      buttons.push({ kind: 'reply', text: bm[1].trim() });
+    }
+    cleanBody = cleanBody.replace(/\[Interactive Button:\s*[^\]]+\]/gi, '').trim();
+
+    // 3. Extract [Interactive List: Title]
+    const listBtnMatch = cleanBody.match(/\[Interactive List:\s*([^\]]+)\]/i);
+    if (listBtnMatch) {
+      buttons.push({ kind: 'list', text: listBtnMatch[1].trim() });
+      cleanBody = cleanBody.replace(/\[Interactive List:\s*[^\]]+\]/gi, '').trim();
+    }
+
+    // 4. Extract [CTA: Title | URL]
+    const ctaMatch = cleanBody.match(/\[CTA:\s*([^\|\]]+)(?:\|\s*([^\]]+))?\]/i);
+    if (ctaMatch) {
+      cta = { text: ctaMatch[1].trim(), url: ctaMatch[2]?.trim() || '' };
+      cleanBody = cleanBody.replace(/\[CTA:\s*[^\]]+\]/gi, '').trim();
+    }
+
+    // If messageType is 'flow' and no button found yet, add flow button
+    if (messageType === 'flow' && buttons.length === 0) {
+      buttons.push({ kind: 'flow', text: 'Choose Service 📱' });
+    }
+
+    // If raw outbound buttons exist
+    if (raw.outbound?.buttons?.length) {
+      for (const b of raw.outbound.buttons) {
+        if (!buttons.some(x => x.text === b.text)) buttons.push(b);
+      }
+    }
+    if (raw.outbound?.cta && !cta) {
+      cta = raw.outbound.cta;
+    }
+
+    const isDoc = mediaUrl.toLowerCase().endsWith('.pdf');
+    const isImg = Boolean(mediaUrl && !isDoc);
+    const hasButtons = buttons.length > 0;
+    const hasCta = Boolean(cta);
+
+    if (isImg || isDoc || hasButtons || hasCta || messageType === 'flow' || messageType === 'interactive' || messageType === 'template') {
+      return {
+        kind: 'bot',
+        headerImageUrl: isImg ? mediaUrl : '',
+        headerDocName: isDoc ? (mediaUrl.split('/').pop() || 'Document.pdf') : '',
+        body: cleanBody || body,
+        footer: 'Iris Premium',
+        buttons,
+        cta,
+        listSections: raw.outbound?.listSections || []
+      };
+    }
+  }
+
+  return null;
+}
+
 /**
  * GET /api/crm/messages/:phone — Get full chat message history for phone
  */
@@ -273,6 +410,7 @@ router.get('/messages/:phone', async (req, res) => {
     const normalized = msgs.map(m => {
       const dir = normalizeDirection(m.direction);
       const isOut = dir === 'out';
+      const rich = buildRichMessage(m, dir);
       return {
         _id: m._id,
         phone: m.phone,
@@ -282,6 +420,7 @@ router.get('/messages/:phone', async (req, res) => {
         status: m.status || (isOut ? 'delivered' : undefined),
         reaction: m.reaction || '',
         createdAt: m.createdAt,
+        rich: rich || m.rich || null,
         raw: m.raw || null
       };
     });

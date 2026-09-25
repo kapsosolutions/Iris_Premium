@@ -3,8 +3,6 @@ import { api } from '../../adminApi';
 import { API_BASE_URL, authHeaders } from '../../config';
 
 // ---- WhatsApp marketing design tokens (exact FMCG CRM theme) --------------
-// Warm-cream canvas, near-black ink, voltage-green CTA, pill-everywhere
-// radius, WhatsApp Sans Var (falls back to Inter / system).
 const FONT = '"WhatsApp Sans Var", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif';
 const C = {
   canvas: '#fcf5eb',
@@ -48,11 +46,7 @@ const money = (n, cur = 'INR') => {
   return `${sym}${Number(n || 0).toLocaleString('en-IN')}`;
 };
 
-// WhatsApp-style delivery ticks for outgoing messages:
-//   sent        single grey ✓
-//   delivered   double grey ✓✓
-//   read        double BLUE ✓✓ (customer has seen it)
-//   failed      red ✕
+// WhatsApp-style delivery ticks for outgoing messages
 function DeliveryMark({ status }) {
   const Tick = ({ color, style }) => (
     <svg viewBox="0 0 16 11" width="15" height="11" style={{ display: 'block', ...style }} aria-hidden="true">
@@ -75,12 +69,96 @@ function DeliveryMark({ status }) {
   );
 }
 
+// ---- Client-side rich payload parser (ensures any message renders as rich) ---
+function parseRich(m) {
+  if (m.rich && typeof m.rich === 'object' && m.rich.kind) return m.rich;
+  const raw = m.raw || {};
+  if (raw.order) return { kind: 'order', ...raw.order };
+  if (raw.location) return { kind: 'location', ...raw.location };
+  if (raw.flow) return { kind: 'flow', ...raw.flow };
+  if (raw.bot) return { kind: 'bot', ...raw.bot };
+
+  const isOut = m.direction === 'out' || m.direction === 'outbound';
+  const body = String(m.body || '').trim();
+  const mediaUrl = m.mediaUrl || '';
+  const messageType = m.messageType || m.type || '';
+
+  if (isOut) {
+    const buttons = [];
+    let cta = null;
+    let cleanBody = body;
+
+    // 1. Extract [Interactive Flow Button: Title]
+    const flowMatch = cleanBody.match(/\[Interactive Flow Button:\s*([^\]]+)\]/i);
+    if (flowMatch) {
+      buttons.push({ kind: 'flow', text: flowMatch[1].trim() });
+      cleanBody = cleanBody.replace(/\[Interactive Flow Button:\s*[^\]]+\]/gi, '').trim();
+    }
+
+    // 2. Extract [Interactive Button: Title]
+    const btnMatches = cleanBody.matchAll(/\[Interactive Button:\s*([^\]]+)\]/gi);
+    for (const bm of btnMatches) {
+      buttons.push({ kind: 'reply', text: bm[1].trim() });
+    }
+    cleanBody = cleanBody.replace(/\[Interactive Button:\s*[^\]]+\]/gi, '').trim();
+
+    // 3. Extract [Interactive List: Title]
+    const listMatch = cleanBody.match(/\[Interactive List:\s*([^\]]+)\]/i);
+    if (listMatch) {
+      buttons.push({ kind: 'list', text: listMatch[1].trim() });
+      cleanBody = cleanBody.replace(/\[Interactive List:\s*[^\]]+\]/gi, '').trim();
+    }
+
+    // 4. Extract [CTA: Title | URL]
+    const ctaMatch = cleanBody.match(/\[CTA:\s*([^\|\]]+)(?:\|\s*([^\]]+))?\]/i);
+    if (ctaMatch) {
+      cta = { text: ctaMatch[1].trim(), url: ctaMatch[2]?.trim() || '' };
+      cleanBody = cleanBody.replace(/\[CTA:\s*[^\]]+\]/gi, '').trim();
+    }
+
+    // Fallback: If messageType is 'flow' and no button parsed yet
+    if (messageType === 'flow' && buttons.length === 0) {
+      buttons.push({ kind: 'flow', text: 'Choose Service 📱' });
+    }
+
+    const isDoc = mediaUrl.toLowerCase().endsWith('.pdf');
+    const isImg = Boolean(mediaUrl && !isDoc);
+
+    if (isImg || isDoc || buttons.length > 0 || cta || messageType === 'flow' || messageType === 'template') {
+      return {
+        kind: 'bot',
+        headerImageUrl: isImg ? mediaUrl : '',
+        headerDocName: isDoc ? (mediaUrl.split('/').pop() || 'Document.pdf') : '',
+        body: cleanBody || body,
+        footer: 'Iris Premium',
+        buttons,
+        cta,
+        listSections: raw.outbound?.listSections || []
+      };
+    }
+  }
+
+  // Inbound media without text
+  if (!isOut && mediaUrl) {
+    const isDoc = mediaUrl.toLowerCase().endsWith('.pdf');
+    return {
+      kind: 'bot',
+      headerImageUrl: !isDoc ? mediaUrl : '',
+      headerDocName: isDoc ? (mediaUrl.split('/').pop() || 'Document.pdf') : '',
+      body: body,
+      buttons: []
+    };
+  }
+
+  return null;
+}
+
 // ---- rich renderers (ink text on light bubbles) ----------------------------
 
 function OrderCard({ rich }) {
   if (!rich || !rich.items) return null;
   return (
-    <div style={{ minWidth: 260, maxWidth: 340, color: C.ink }}>
+    <div style={{ minWidth: 260, maxWidth: 360, color: C.ink }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontWeight: 600, fontSize: 13.5, marginBottom: 8 }}>
         🧾 Order • {rich.items.length} item{rich.items.length !== 1 ? 's' : ''}
       </div>
@@ -115,7 +193,7 @@ function LocationCard({ rich }) {
   if (!rich) return null;
   const label = rich.address || rich.name || (rich.latitude != null ? `${rich.latitude}, ${rich.longitude}` : 'Location');
   return (
-    <div style={{ minWidth: 220, maxWidth: 300, color: C.ink }}>
+    <div style={{ minWidth: 220, maxWidth: 320, color: C.ink }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontWeight: 600, fontSize: 13.5, marginBottom: 6 }}>📍 Shared location</div>
       {rich.name && <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 2 }}>{rich.name}</div>}
       <div style={{ fontSize: 12.5, color: C.inkMuted, lineHeight: 1.4, whiteSpace: 'pre-wrap' }}>{label}</div>
@@ -133,7 +211,7 @@ function LocationCard({ rich }) {
 function FlowCard({ rich }) {
   if (!rich || !rich.fields?.length) return <div style={{ fontSize: 13, fontWeight: 600, color: C.ink }}>📋 Form response</div>;
   return (
-    <div style={{ minWidth: 240, maxWidth: 320, color: C.ink }}>
+    <div style={{ minWidth: 240, maxWidth: 340, color: C.ink }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontWeight: 600, fontSize: 13.5, marginBottom: 8 }}>📋 Form response</div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
         {rich.fields.map((f, i) => (
@@ -147,25 +225,69 @@ function FlowCard({ rich }) {
   );
 }
 
-// Outbound bot/agent message: image/doc header + body + reply/CTA/flow buttons.
+// Outbound bot/agent message: image/doc header + body + interactive buttons
 function BotCard({ rich }) {
   if (!rich) return null;
-  const btnStyle = { display: 'block', textAlign: 'center', padding: '7px 10px', fontSize: 13, fontWeight: 600, color: C.link, textDecoration: 'none', borderRadius: 8 };
+  const btnStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
+    width: '100%',
+    textAlign: 'center',
+    padding: '10px 14px',
+    fontSize: 13.5,
+    fontWeight: 600,
+    color: C.link,
+    textDecoration: 'none',
+    borderRadius: 8,
+    cursor: 'default',
+    background: 'transparent',
+    boxSizing: 'border-box'
+  };
   const iconFor = (kind) => (kind === 'flow' ? '⚡ ' : kind === 'list' ? '📋 ' : kind === 'location' ? '📍 ' : kind === 'pay' ? '💳 ' : '💬 ');
+
   return (
-    <div style={{ minWidth: 220, maxWidth: 330, color: C.ink }}>
+    <div style={{ minWidth: 260, maxWidth: 380, color: C.ink }}>
+      {/* Header Media Banner */}
       {rich.headerImageUrl && (
-        <img src={rich.headerImageUrl} alt="" style={{ width: '100%', borderRadius: 14, marginBottom: 8, display: 'block', maxHeight: 220, objectFit: 'cover' }} />
+        <div style={{ margin: '-4px -4px 10px -4px', borderRadius: 12, overflow: 'hidden' }}>
+          <img
+            src={rich.headerImageUrl}
+            alt="Header Media"
+            style={{
+              width: '100%',
+              display: 'block',
+              maxHeight: 220,
+              objectFit: 'cover'
+            }}
+          />
+        </div>
       )}
+
+      {/* Header Document */}
       {rich.headerDocName && (
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(28,30,33,0.05)', borderRadius: 12, padding: '8px 10px', marginBottom: 8, fontSize: 12.5, fontWeight: 600 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(28,30,33,0.05)', borderRadius: 10, padding: '8px 12px', marginBottom: 10, fontSize: 12.5, fontWeight: 600 }}>
           📄 {rich.headerDocName}
         </div>
       )}
+
+      {/* Clean Message Body */}
       {rich.body && (
-        <div style={{ fontSize: 14, whiteSpace: 'pre-wrap', wordBreak: 'break-word', lineHeight: 1.45 }} dangerouslySetInnerHTML={{ __html: formatText(rich.body) }} />
+        <div
+          style={{ fontSize: 13.5, whiteSpace: 'pre-wrap', wordBreak: 'break-word', lineHeight: 1.45, color: C.ink }}
+          dangerouslySetInnerHTML={{ __html: formatText(rich.body) }}
+        />
       )}
-      {rich.footer && <div style={{ fontSize: 11, color: C.inkMuted, marginTop: 5 }}>{rich.footer}</div>}
+
+      {/* Footer Text */}
+      {rich.footer && (
+        <div style={{ fontSize: 11, color: C.inkMuted, marginTop: 6 }}>
+          {rich.footer}
+        </div>
+      )}
+
+      {/* List Sections */}
       {rich.listSections?.length > 0 && (
         <div style={{ marginTop: 6 }}>
           {rich.listSections.map((s, i) => (
@@ -176,15 +298,23 @@ function BotCard({ rich }) {
           ))}
         </div>
       )}
+
+      {/* Interactive WhatsApp Buttons */}
       {(rich.buttons?.length > 0 || rich.cta) && (
-        <div style={{ marginTop: 8, borderTop: `1px solid ${C.hairline}`, paddingTop: 4, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ marginTop: 10, borderTop: `1px solid ${C.hairline}`, paddingTop: 4, display: 'flex', flexDirection: 'column' }}>
           {rich.cta && (
             rich.cta.url
               ? <a href={rich.cta.url} target="_blank" rel="noreferrer" style={btnStyle}>🔗 {rich.cta.text}</a>
               : <div style={btnStyle}>🔗 {rich.cta.text}</div>
           )}
           {rich.buttons?.map((b, i) => (
-            <div key={i} style={{ ...btnStyle, borderTop: (i > 0 || rich.cta) ? `1px solid ${C.hairlineSoft}` : 'none' }}>
+            <div
+              key={i}
+              style={{
+                ...btnStyle,
+                borderTop: (i > 0 || rich.cta) ? `1px solid ${C.hairlineSoft}` : 'none'
+              }}
+            >
               {iconFor(b.kind)}{b.text}
             </div>
           ))}
@@ -218,7 +348,6 @@ export default function AdminWhatsAppCRM({ isFullView = true }) {
     try {
       const res = await api.get('/crm/threads');
       setThreads(res.data || []);
-      // If none selected, auto-select first
       if (!activeRef.current && res.data?.length > 0) {
         openThread(res.data[0]._id, false);
       }
@@ -247,7 +376,6 @@ export default function AdminWhatsAppCRM({ isFullView = true }) {
     }
   }
 
-  // Scroll to bottom without moving or jumping the window!
   function scrollToBottom(smooth = true) {
     setTimeout(() => {
       if (chatScrollRef.current) {
@@ -264,7 +392,6 @@ export default function AdminWhatsAppCRM({ isFullView = true }) {
     loadTemplates();
   }, []);
 
-  // Live polling - refresh threads + open chat every 5s safely
   useEffect(() => {
     const t = setInterval(async () => {
       try {
@@ -350,7 +477,7 @@ export default function AdminWhatsAppCRM({ isFullView = true }) {
   const activeName = activeThread?.name || active || '';
   const lastInboundAt = (() => {
     for (let i = messages.length - 1; i >= 0; i--) {
-      if (messages[i].direction === 'in') return messages[i].createdAt;
+      if (messages[i].direction === 'in' || messages[i].direction === 'inbound') return messages[i].createdAt;
     }
     return activeThread?.lastInboundAt || null;
   })();
@@ -588,6 +715,14 @@ export default function AdminWhatsAppCRM({ isFullView = true }) {
                     const isOut = m.direction === 'out' || m.direction === 'outbound';
                     const time = m.createdAt ? new Date(m.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
                     const showDay = i === 0 || dayLabel(m.createdAt) !== dayLabel(messages[i - 1].createdAt);
+                    const rich = m.rich || parseRich(m);
+
+                    let inner;
+                    if (rich?.kind === 'order') inner = <OrderCard rich={rich} />;
+                    else if (rich?.kind === 'location') inner = <LocationCard rich={rich} />;
+                    else if (rich?.kind === 'flow') inner = <FlowCard rich={rich} />;
+                    else if (rich?.kind === 'bot') inner = <BotCard rich={rich} />;
+                    else inner = <div style={{ fontSize: 13.5, whiteSpace: 'pre-wrap', wordBreak: 'break-word', color: C.ink }} dangerouslySetInnerHTML={{ __html: formatText(m.body) }} />;
 
                     return (
                       <React.Fragment key={m._id || i}>
@@ -599,7 +734,7 @@ export default function AdminWhatsAppCRM({ isFullView = true }) {
 
                         <div style={{
                           alignSelf: isOut ? 'flex-end' : 'flex-start',
-                          maxWidth: '72%',
+                          maxWidth: '85%',
                           display: 'flex',
                           flexDirection: 'column',
                           alignItems: isOut ? 'flex-end' : 'flex-start'
@@ -607,41 +742,14 @@ export default function AdminWhatsAppCRM({ isFullView = true }) {
                           {/* Bubble Container */}
                           <div style={{
                             padding: '10px 14px',
-                            borderRadius: isOut ? '16px 16px 3px 16px' : '16px 16px 16px 3px',
+                            borderRadius: isOut ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
                             background: isOut ? C.mint : C.surface,
                             color: C.ink,
-                            border: `1px solid ${C.hairlineSoft}`,
-                            boxShadow: '0 1px 2px rgba(28,30,33,0.06)',
-                            position: 'relative',
-                            wordBreak: 'break-word',
-                            fontSize: 13.5,
-                            lineHeight: 1.45
+                            border: `1px solid ${isOut ? 'rgba(37,211,102,0.35)' : C.hairlineSoft}`,
+                            boxShadow: '0 1px 2px rgba(28,30,33,0.06)'
                           }}>
-                            {/* Rich Cards if available */}
-                            {m.raw?.order && <OrderCard rich={m.raw.order} />}
-                            {m.raw?.location && <LocationCard rich={m.raw.location} />}
-                            {m.raw?.flow && <FlowCard rich={m.raw.flow} />}
-                            {m.raw?.bot && <BotCard rich={m.raw.bot} />}
+                            {inner}
 
-                            {/* Media Attachment if present */}
-                            {m.mediaUrl && !m.raw && (
-                              <div style={{ marginBottom: 6, borderRadius: 10, overflow: 'hidden' }}>
-                                {m.mediaUrl.endsWith('.pdf') ? (
-                                  <a href={m.mediaUrl} target="_blank" rel="noreferrer" style={{ color: C.link, fontWeight: 600, fontSize: 12.5, textDecoration: 'underline', display: 'flex', alignItems: 'center', gap: 6 }}>
-                                    📄 Attached PDF Document
-                                  </a>
-                                ) : (
-                                  <img src={m.mediaUrl} alt="" style={{ maxWidth: '100%', maxHeight: 220, objectFit: 'cover', display: 'block', borderRadius: 10 }} />
-                                )}
-                              </div>
-                            )}
-
-                            {/* Plain Text Body */}
-                            {!m.raw && m.body && (
-                              <div dangerouslySetInnerHTML={{ __html: formatText(m.body) }} />
-                            )}
-
-                            {/* Timestamp & WhatsApp Delivery Tick */}
                             <div style={{
                               display: 'flex',
                               alignItems: 'center',
@@ -742,7 +850,7 @@ export default function AdminWhatsAppCRM({ isFullView = true }) {
         </main>
       </div>
 
-      {/* Templates Drawer (Exact FMCG Drawer) */}
+      {/* Templates Drawer */}
       {showTemplates && (
         <TemplatesDrawer
           templates={templates}
