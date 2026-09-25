@@ -272,3 +272,231 @@ input, select, textarea {
   letter-spacing: 0.007em;
   color: var(--color-primary-ink);
 }
+
+/* ========================================================
+   RESPONSIVE MOBILE OPTIMIZATION SYSTEM
+   ======================================================== */
+
+.site-container {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Header Navbar Styles */
+.site-header {
+  width: 100%;
+  box-shadow: none;
+  transition: background-color 0.25s ease, padding 0.25s ease;
+}
+
+.site-header-inner {
+  max-width: var(--page-max-width);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.site-header-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.site-header-logo-img {
+  height: 44px;
+  object-fit: contain;
+  display: block;
+}
+
+.site-header-logo-text {
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  color: var(--color-primary-ink);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.site-header-cta {
+  padding: 12px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Hero Banner Container */
+.hero-banner-container {
+  position: relative;
+  width: 100%;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-color: #ffffff;
+  box-shadow: none;
+}
+
+/* Desktop & Tablet Landscape (> 768px) */
+@media (min-width: 769px) {
+  .site-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background-color: transparent;
+    padding: 16px 24px;
+  }
+
+  .hero-banner-container {
+    background-image: url("/hero.jpg");
+    background-size: 100% auto;
+    height: 70vw;
+    max-height: 750px;
+    min-height: 400px;
+  }
+
+  .about-section-container {
+    background-image: url("/about.png");
+    background-size: cover;
+    background-position: center;
+    padding: 100px 0;
+  }
+}
+
+/* Mobile & Small Tablets (<= 768px) */
+@media (max-width: 768px) {
+  /* Prevent iOS Safari input auto-zoom by ensuring minimum 16px font */
+  input[type="text"],
+  input[type="tel"],
+  input[type="email"],
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 150;
+    background-color: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    padding: 10px 16px;
+  }
+
+  .site-header-logo {
+    gap: 8px;
+  }
+
+  .site-header-logo-img {
+    height: 34px;
+  }
+
+  .site-header-logo-text {
+    font-size: 17px;
+    letter-spacing: 0.02em;
+  }
+
+  .site-header-cta {
+    padding: 8px 16px;
+    font-size: 13.5px;
+    min-height: 38px;
+  }
+
+  /* Mobile Hero Banner using hero_mobile.png */
+  .hero-banner-container {
+    background-image: url("/hero_mobile.png");
+    background-size: 100% auto;
+    /* Aspect ratio: 941px width by 1672px height = 1.777 */
+    height: calc(100vw * 1.777);
+    min-height: 0;
+    max-height: none;
+  }
+
+  .display-title {
+    font-size: clamp(32px, 8vw, 48px);
+  }
+
+  .section-title {
+    font-size: clamp(24px, 6.5vw, 36px);
+    line-height: 1.14;
+  }
+
+  .apple-card {
+    padding: 22px 18px !important;
+    border-radius: 20px !important;
+  }
+
+  .about-copy-card {
+    background-color: rgba(255, 255, 255, 0.93) !important;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    padding: 24px 20px !important;
+    border-radius: 24px !important;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .about-section-container {
+    background-image: url("/about_mobile.png");
+    background-size: 100% auto;
+    background-position: center bottom;
+    padding: 36px 0 clamp(280px, 72vw, 440px) 0;
+  }
+}
+
+.about-section-container {
+  position: relative;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-color: #ffffff;
+  box-shadow: none;
+}
+
+.about-copy-card {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+}
+
+/* Floating WhatsApp Concierge Button */
+.whatsapp-floating-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  background-color: #25D366;
+  color: #ffffff;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.45);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.whatsapp-floating-btn:hover {
+  transform: scale(1.08);
+}
+
+@media (max-width: 768px) {
+  .whatsapp-floating-btn {
+    bottom: 18px;
+    right: 18px;
+    width: 48px;
+    height: 48px;
+  }
+
+  .whatsapp-floating-btn svg {
+    width: 26px !important;
+    height: 26px !important;
+  }
+}

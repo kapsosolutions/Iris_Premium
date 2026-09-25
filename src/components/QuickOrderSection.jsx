@@ -110,8 +110,8 @@ export default function QuickOrderSection() {
   };
 
   return (
-    <section id="order-request" style={{ backgroundColor: 'var(--color-canvas)', padding: '80px 0 20px 0', boxShadow: 'none' }}>
-      <div style={{ maxWidth: 'var(--page-max-width)', margin: '0 auto', padding: '0 24px' }}>
+    <section id="order-request" style={{ backgroundColor: 'var(--color-canvas)', padding: 'clamp(48px, 8vw, 80px) 0 20px 0', boxShadow: 'none' }}>
+      <div style={{ maxWidth: 'var(--page-max-width)', margin: '0 auto', padding: '0 clamp(16px, 4vw, 24px)' }}>
         
         {/* Section Header */}
         <motion.div 
@@ -119,9 +119,9 @@ export default function QuickOrderSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          style={{ textAlign: 'center', maxWidth: '750px', margin: '0 auto 50px' }}
+          style={{ textAlign: 'center', maxWidth: '750px', margin: '0 auto clamp(30px, 6vw, 50px)' }}
         >
-          <span className="apple-badge-ember" style={{ display: 'inline-block', marginBottom: '8px' }}>
+          <span className="apple-badge-ember" style={{ display: 'inline-block', marginBottom: '8px', fontSize: 'clamp(11px, 2.5vw, 13px)' }}>
             Book Your Custom Bottle Order
           </span>
           <h2 className="section-title">
@@ -143,7 +143,7 @@ export default function QuickOrderSection() {
             style={{
               backgroundColor: 'var(--color-paper)',
               borderRadius: 'var(--radius-cards)',
-              padding: '48px',
+              padding: 'clamp(20px, 4vw, 44px)',
               boxShadow: 'none'
             }}
           >
@@ -220,7 +220,7 @@ export default function QuickOrderSection() {
                 )}
 
                 {/* Grid 2 Column for Contact Inputs */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px' }}>
                   <div>
                     <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, color: 'var(--color-primary-ink)', marginBottom: '8px' }}>
                       Your Full Name *
@@ -270,7 +270,7 @@ export default function QuickOrderSection() {
                   </div>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px' }}>
                   <div>
                     <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, color: 'var(--color-primary-ink)', marginBottom: '8px' }}>
                       WhatsApp Number (for instant proof) *
@@ -320,7 +320,7 @@ export default function QuickOrderSection() {
                 </div>
 
                 {/* Purpose & Quantity Row */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px' }}>
                   <div>
                     <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, color: 'var(--color-primary-ink)', marginBottom: '8px' }}>
                       Purpose / Event Type *
@@ -441,7 +441,9 @@ export default function QuickOrderSection() {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'space-between',
-                      padding: '16px 20px',
+                      flexWrap: 'wrap',
+                      gap: '12px',
+                      padding: '14px 18px',
                       borderRadius: '16px',
                       border: '1px solid #c6e1c6',
                       backgroundColor: '#f3fbf3'

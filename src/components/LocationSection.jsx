@@ -62,8 +62,8 @@ export default function LocationSection() {
   const activeReview = reviews[currentIndex];
 
   return (
-    <section id="location" style={{ backgroundColor: 'var(--color-canvas)', padding: '30px 0 100px 0', boxShadow: 'none' }}>
-      <div style={{ maxWidth: 'var(--page-max-width)', margin: '0 auto', padding: '0 24px' }}>
+    <section id="location" style={{ backgroundColor: 'var(--color-canvas)', padding: 'clamp(20px, 4vw, 30px) 0 clamp(48px, 8vw, 100px) 0', boxShadow: 'none' }}>
+      <div style={{ maxWidth: 'var(--page-max-width)', margin: '0 auto', padding: '0 clamp(16px, 4vw, 24px)' }}>
         
         {/* Section Header */}
         <motion.div 
@@ -71,9 +71,9 @@ export default function LocationSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          style={{ marginBottom: '40px' }}
+          style={{ marginBottom: 'clamp(24px, 5vw, 40px)' }}
         >
-          <span className="apple-badge-ember" style={{ display: 'block', marginBottom: '8px' }}>
+          <span className="apple-badge-ember" style={{ display: 'block', marginBottom: '8px', fontSize: 'clamp(11px, 2.5vw, 13px)' }}>
             BOTTLING PLANT & REVIEWS
           </span>
           <h2 className="section-title">
@@ -87,8 +87,8 @@ export default function LocationSection() {
         {/* 2-Column Grid: Left (Google Reviews) & Right (Google Map) */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
-          gap: '28px',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gap: '24px',
           alignItems: 'stretch'
         }}>
           
@@ -102,7 +102,7 @@ export default function LocationSection() {
             style={{
               backgroundColor: 'var(--color-paper)',
               borderRadius: 'var(--radius-cards)',
-              padding: '36px',
+              padding: 'clamp(20px, 4vw, 36px)',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-between'
@@ -228,7 +228,7 @@ export default function LocationSection() {
             style={{
               borderRadius: 'var(--radius-cards)',
               overflow: 'hidden',
-              minHeight: '440px',
+              minHeight: 'clamp(280px, 45vw, 440px)',
               backgroundColor: 'var(--color-paper)'
             }}
           >
@@ -237,7 +237,7 @@ export default function LocationSection() {
               src={embedIframeUrl}
               width="100%"
               height="100%"
-              style={{ border: 0, minHeight: '440px' }}
+              style={{ border: 0, minHeight: 'clamp(280px, 45vw, 440px)' }}
               allowFullScreen=""
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"

@@ -84,10 +84,10 @@ export default function QuoteModal({ isOpen, onClose, prefillData }) {
         style={{
           backgroundColor: '#ffffff',
           border: '2px solid var(--color-charcoal-press)',
-          borderRadius: '4px',
+          borderRadius: '16px',
           maxWidth: '650px',
           width: '100%',
-          padding: '30px',
+          padding: 'clamp(20px, 4vw, 30px)',
           position: 'relative',
           margin: 'auto'
         }}
@@ -98,32 +98,32 @@ export default function QuoteModal({ isOpen, onClose, prefillData }) {
           onClick={onClose}
           style={{
             position: 'absolute',
-            top: '20px',
-            right: '20px',
-            fontSize: '16px',
-            fontWeight: '500',
+            top: '16px',
+            right: '16px',
+            fontSize: '15px',
+            fontWeight: '600',
             color: 'var(--color-charcoal-press)',
             background: 'transparent',
             border: 'none',
             cursor: 'pointer'
           }}
         >
-          [✕] CLOSE
+          ✕ CLOSE
         </button>
 
         {!submitted ? (
           <>
             <span className="category-tag">IRIS PREMIUM CONCIERGE</span>
-            <h2 style={{ fontSize: '28px', fontWeight: '900', color: 'var(--color-charcoal-press)', textTransform: 'uppercase', margin: '4px 0 10px' }}>
+            <h2 style={{ fontSize: 'clamp(20px, 5vw, 28px)', fontWeight: '900', color: 'var(--color-charcoal-press)', textTransform: 'uppercase', margin: '4px 0 10px' }}>
               REQUEST BESPOKE QUOTE & SAMPLE KIT
             </h2>
-            <p style={{ fontSize: '15px', color: 'var(--color-charcoal-press)', marginBottom: '24px' }}>
+            <p style={{ fontSize: '14px', color: 'var(--color-charcoal-press)', marginBottom: '20px' }}>
               Fill in your event details below to receive an instant formal PDF quote and complimentary physical sample kit containing our gold foil and waterproof vinyl label samples.
             </p>
 
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '14px' }}>
                 <div>
                   <label style={{ fontSize: '12px', fontWeight: '500', textTransform: 'uppercase', color: 'var(--color-forest-heritage)', display: 'block', marginBottom: '4px' }}>
                     YOUR FULL NAME *
@@ -134,7 +134,7 @@ export default function QuoteModal({ isOpen, onClose, prefillData }) {
                     placeholder="e.g. Victoria Sterling"
                     value={formData.fullName}
                     onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                    style={{ width: '100%', padding: '10px 12px', border: '1.5px solid var(--color-charcoal-press)', borderRadius: '4px' }}
+                    style={{ width: '100%', padding: '10px 12px', border: '1.5px solid var(--color-charcoal-press)', borderRadius: '4px', fontSize: '15px' }}
                   />
                 </div>
 
@@ -148,12 +148,12 @@ export default function QuoteModal({ isOpen, onClose, prefillData }) {
                     placeholder="victoria@luxuryresort.com"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    style={{ width: '100%', padding: '10px 12px', border: '1.5px solid var(--color-charcoal-press)', borderRadius: '4px' }}
+                    style={{ width: '100%', padding: '10px 12px', border: '1.5px solid var(--color-charcoal-press)', borderRadius: '4px', fontSize: '15px' }}
                   />
                 </div>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '14px' }}>
                 <div>
                   <label style={{ fontSize: '12px', fontWeight: '500', textTransform: 'uppercase', color: 'var(--color-forest-heritage)', display: 'block', marginBottom: '4px' }}>
                     ORGANIZATION / BRAND NAME
@@ -163,7 +163,7 @@ export default function QuoteModal({ isOpen, onClose, prefillData }) {
                     placeholder="e.g. Grand Hyatt / Forbes Summit"
                     value={formData.organization}
                     onChange={(e) => setFormData({ ...formData, organization: e.target.value })}
-                    style={{ width: '100%', padding: '10px 12px', border: '1.5px solid var(--color-charcoal-press)', borderRadius: '4px' }}
+                    style={{ width: '100%', padding: '10px 12px', border: '1.5px solid var(--color-charcoal-press)', borderRadius: '4px', fontSize: '15px' }}
                   />
                 </div>
 
@@ -174,7 +174,7 @@ export default function QuoteModal({ isOpen, onClose, prefillData }) {
                   <select
                     value={formData.eventType}
                     onChange={(e) => setFormData({ ...formData, eventType: e.target.value })}
-                    style={{ width: '100%', padding: '10px 12px', border: '1.5px solid var(--color-charcoal-press)', borderRadius: '4px', backgroundColor: '#ffffff' }}
+                    style={{ width: '100%', padding: '10px 12px', border: '1.5px solid var(--color-charcoal-press)', borderRadius: '4px', backgroundColor: '#ffffff', fontSize: '15px' }}
                   >
                     <option value="Hotel / Resort">Hotel / Resort Amenities</option>
                     <option value="Luxury Wedding">Luxury Wedding / Gala</option>
@@ -185,7 +185,7 @@ export default function QuoteModal({ isOpen, onClose, prefillData }) {
                 </div>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '14px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '14px' }}>
                 <div>
                   <label style={{ fontSize: '12px', fontWeight: '500', textTransform: 'uppercase', color: 'var(--color-forest-heritage)', display: 'block', marginBottom: '4px' }}>
                     QUANTITY
@@ -194,7 +194,7 @@ export default function QuoteModal({ isOpen, onClose, prefillData }) {
                     type="text"
                     value={formData.quantity}
                     onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
-                    style={{ width: '100%', padding: '10px 12px', border: '1.5px solid var(--color-charcoal-press)', borderRadius: '4px' }}
+                    style={{ width: '100%', padding: '10px 12px', border: '1.5px solid var(--color-charcoal-press)', borderRadius: '4px', fontSize: '15px' }}
                   />
                 </div>
 

@@ -23,8 +23,8 @@ export default function Footer({ onOpenStudio, onOpenQuote }) {
       width: '100%',
       backgroundColor: 'rgb(10 10 10 / 52%)',
       borderTop: '1px solid rgba(255, 255, 255, 0.15)',
-      paddingTop: '64px',
-      paddingBottom: '40px',
+      paddingTop: 'clamp(40px, 7vw, 64px)',
+      paddingBottom: 'clamp(24px, 4vw, 40px)',
       backgroundImage: 'linear-gradient(rgb(10 10 10 / 0%), rgb(10 10 10 / 0%)), url("/map.png")',
       backgroundSize: 'cover',
       backgroundPosition: 'center',
@@ -32,14 +32,14 @@ export default function Footer({ onOpenStudio, onOpenQuote }) {
       color: '#ffffff',
       position: 'relative'
     }}>
-      <div style={{ maxWidth: 'var(--page-max-width)', margin: '0 auto', padding: '0 24px', position: 'relative', zIndex: 2 }}>
+      <div style={{ maxWidth: 'var(--page-max-width)', margin: '0 auto', padding: '0 clamp(16px, 4vw, 24px)', position: 'relative', zIndex: 2 }}>
         
         {/* Top Footer 3-Column Grid */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-          gap: '40px',
-          paddingBottom: '48px',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+          gap: 'clamp(28px, 5vw, 40px)',
+          paddingBottom: '36px',
           borderBottom: '1px solid rgba(255, 255, 255, 0.15)'
         }}>
           

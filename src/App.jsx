@@ -119,26 +119,14 @@ export default function App() {
   return (
     <div className="site-container font-work-sans">
       
-      {/* 1. Top Clean Hero Photo Banner (Navbar + Pure Photo, zero text overlay) */}
-      <div style={{
-        backgroundImage: 'url("/hero.jpg")',
-        backgroundSize: '100% auto',
-        backgroundPosition: 'center top',
-        backgroundRepeat: 'no-repeat',
-        position: 'relative',
-        width: '100%',
-        height: '70vw',
-        maxHeight: '750px',
-        minHeight: '400px',
-        backgroundColor: '#ffffff',
-        boxShadow: 'none'
-      }}>
-        {/* Header Bar */}
-        <Header
-          onOpenStudio={handleOpenStudio}
-          onOpenQuote={() => handleOpenQuote()}
-        />
-      </div>
+      {/* Header Bar */}
+      <Header
+        onOpenStudio={handleOpenStudio}
+        onOpenQuote={() => handleOpenQuote()}
+      />
+
+      {/* 1. Top Clean Hero Photo Banner (Desktop: hero.jpg, Mobile: hero_mobile.png) */}
+      <div className="hero-banner-container" />
 
       {/* Dual-Row Moving Brand Ticker Section */}
       <BrandTickerSection />

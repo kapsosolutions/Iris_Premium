@@ -48,7 +48,7 @@ export default function BrandTickerSection() {
   return (
     <section style={{
       backgroundColor: 'rgb(253, 253, 253)',
-      padding: '42px 0 48px',
+      padding: 'clamp(28px, 5vw, 42px) 0 clamp(32px, 5vw, 48px)',
       overflow: 'hidden',
       position: 'relative',
       width: '100%',
@@ -56,21 +56,21 @@ export default function BrandTickerSection() {
       borderBottom: '1px solid rgba(0, 0, 0, 0.04)',
       boxShadow: 'none'
     }}>
-      <div style={{ maxWidth: 'var(--page-max-width)', margin: '0 auto', padding: '0 24px 26px', textAlign: 'center' }}>
-        <span className="apple-badge-ember" style={{ display: 'inline-block', letterSpacing: '0.08em' }}>
+      <div style={{ maxWidth: 'var(--page-max-width)', margin: '0 auto', padding: '0 16px clamp(18px, 3vw, 26px)', textAlign: 'center' }}>
+        <span className="apple-badge-ember" style={{ display: 'inline-block', letterSpacing: '0.08em', fontSize: 'clamp(11px, 2.5vw, 13px)' }}>
           TRUSTED BY PREMIER CLIENTS & BRANDS
         </span>
       </div>
 
       {/* Row 1: Left to Right Smooth Marquee */}
-      <div style={{ display: 'flex', overflow: 'hidden', width: '100%', marginBottom: '22px', position: 'relative' }}>
+      <div style={{ display: 'flex', overflow: 'hidden', width: '100%', marginBottom: '18px', position: 'relative' }}>
         {/* Left Fade Gradient Mask */}
         <div style={{
           position: 'absolute',
           left: 0,
           top: 0,
           bottom: 0,
-          width: '110px',
+          width: 'clamp(24px, 8vw, 110px)',
           background: 'linear-gradient(to right, rgb(253, 253, 253), rgba(253, 253, 253, 0))',
           zIndex: 2,
           pointerEvents: 'none'
@@ -81,7 +81,7 @@ export default function BrandTickerSection() {
           right: 0,
           top: 0,
           bottom: 0,
-          width: '110px',
+          width: 'clamp(24px, 8vw, 110px)',
           background: 'linear-gradient(to left, rgb(253, 253, 253), rgba(253, 253, 253, 0))',
           zIndex: 2,
           pointerEvents: 'none'
@@ -95,7 +95,7 @@ export default function BrandTickerSection() {
             duration: 32,
             ease: 'linear'
           }}
-          style={{ display: 'flex', gap: '48px', whiteSpace: 'nowrap', alignItems: 'center' }}
+          style={{ display: 'flex', gap: 'clamp(24px, 4vw, 48px)', whiteSpace: 'nowrap', alignItems: 'center' }}
         >
           {row1Doubled.map((item, idx) => (
             <div
@@ -107,12 +107,12 @@ export default function BrandTickerSection() {
                 background: 'transparent',
                 border: 'none',
                 boxShadow: 'none',
-                padding: '4px 10px',
+                padding: '4px 6px',
                 flexShrink: 0,
                 transition: 'transform 0.25s ease'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'scale(1.1)';
+                e.currentTarget.style.transform = 'scale(1.08)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'scale(1)';
@@ -123,8 +123,8 @@ export default function BrandTickerSection() {
                 alt={item.name}
                 loading="lazy"
                 style={{
-                  maxHeight: '62px',
-                  maxWidth: '160px',
+                  maxHeight: 'clamp(38px, 6vw, 62px)',
+                  maxWidth: 'clamp(100px, 14vw, 160px)',
                   width: 'auto',
                   height: 'auto',
                   objectFit: 'contain',
@@ -145,7 +145,7 @@ export default function BrandTickerSection() {
           left: 0,
           top: 0,
           bottom: 0,
-          width: '110px',
+          width: 'clamp(24px, 8vw, 110px)',
           background: 'linear-gradient(to right, rgb(253, 253, 253), rgba(253, 253, 253, 0))',
           zIndex: 2,
           pointerEvents: 'none'
@@ -156,7 +156,7 @@ export default function BrandTickerSection() {
           right: 0,
           top: 0,
           bottom: 0,
-          width: '110px',
+          width: 'clamp(24px, 8vw, 110px)',
           background: 'linear-gradient(to left, rgb(253, 253, 253), rgba(253, 253, 253, 0))',
           zIndex: 2,
           pointerEvents: 'none'
@@ -170,7 +170,7 @@ export default function BrandTickerSection() {
             duration: 32,
             ease: 'linear'
           }}
-          style={{ display: 'flex', gap: '48px', whiteSpace: 'nowrap', alignItems: 'center' }}
+          style={{ display: 'flex', gap: 'clamp(24px, 4vw, 48px)', whiteSpace: 'nowrap', alignItems: 'center' }}
         >
           {row2Doubled.map((item, idx) => (
             <div
@@ -182,12 +182,12 @@ export default function BrandTickerSection() {
                 background: 'transparent',
                 border: 'none',
                 boxShadow: 'none',
-                padding: '4px 10px',
+                padding: '4px 6px',
                 flexShrink: 0,
                 transition: 'transform 0.25s ease'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'scale(1.1)';
+                e.currentTarget.style.transform = 'scale(1.08)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'scale(1)';
@@ -198,8 +198,8 @@ export default function BrandTickerSection() {
                 alt={item.name}
                 loading="lazy"
                 style={{
-                  maxHeight: '62px',
-                  maxWidth: '160px',
+                  maxHeight: 'clamp(38px, 6vw, 62px)',
+                  maxWidth: 'clamp(100px, 14vw, 160px)',
                   width: 'auto',
                   height: 'auto',
                   objectFit: 'contain',

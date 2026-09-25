@@ -5,8 +5,11 @@
     <link rel="icon" type="image/png" href="/logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Preload hero banner so it starts downloading immediately (it's a CSS background) -->
-    <link rel="preload" as="image" href="/hero.jpg" fetchpriority="high" />
+    <!-- Preload hero & about banners so they start downloading immediately -->
+    <link rel="preload" as="image" href="/hero.jpg" media="(min-width: 769px)" fetchpriority="high" />
+    <link rel="preload" as="image" href="/hero_mobile.png" media="(max-width: 768px)" fetchpriority="high" />
+    <link rel="preload" as="image" href="/about.png" media="(min-width: 769px)" />
+    <link rel="preload" as="image" href="/about_mobile.png" media="(max-width: 768px)" />
 
     <!-- Google Search Console verification -->
     <meta name="google-site-verification" content="hT3pZP5usQCK6r2W8s1kq6I2xZ_iDODOXxzJeIg5-fc" />

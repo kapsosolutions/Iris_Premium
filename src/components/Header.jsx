@@ -9,36 +9,16 @@ export default function Header() {
   };
 
   return (
-    <header style={{
-      position: 'sticky',
-      top: 0,
-      zIndex: 100,
-      backgroundColor: 'transparent',
-      padding: '16px 24px',
-      boxShadow: 'none'
-    }}>
-      <div style={{
-        maxWidth: 'var(--page-max-width)',
-        margin: '0 auto',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-      }}>
+    <header className="site-header">
+      <div className="site-header-inner">
         {/* Logo Brand Image */}
-        <a href="#" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
+        <a href="#" className="site-header-logo">
           <img 
             src="/logo.png" 
             alt="Iris Water Logo" 
-            style={{ height: '44px', objectFit: 'contain' }} 
+            className="site-header-logo-img"
           />
-          <span style={{
-            fontSize: '22px',
-            fontWeight: 900,
-            letterSpacing: '0.04em',
-            color: 'var(--color-primary-ink)',
-            lineHeight: 1,
-            whiteSpace: 'nowrap'
-          }}>
+          <span className="site-header-logo-text">
             IRIS WATER
           </span>
         </a>
@@ -46,9 +26,8 @@ export default function Header() {
         {/* Right Header Navigation: Order Now Button */}
         <div>
           <button 
-            className="btn-pill-primary"
+            className="btn-pill-primary site-header-cta"
             onClick={handleOrderNowClick}
-            style={{ padding: '12px 24px', fontSize: '15px', fontWeight: 600 }}
           >
             Order Now ›
           </button>
