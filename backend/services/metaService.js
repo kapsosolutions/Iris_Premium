@@ -242,6 +242,117 @@ export const sendOrderRequestedNotification = async (toPhone, order) => {
   return sendTextMessage(toPhone, msg);
 };
 
+/** List all message templates from Meta WABA */
+export const listTemplates = async () => {
+  const wabaId = process.env.WABA_ID;
+  const token = process.env.META_ACCESS_TOKEN || TOKEN;
+  if (!wabaId) throw new Error('WABA_ID is not configured');
+  const res = await axios.get(`https://graph.facebook.com/v21.0/${wabaId}/message_templates`, {
+    headers: { Authorization: `Bearer ${token}` },
+    params: { limit: 200 }
+  });
+  return res.data?.data || [];
+};
+
+/** Get a single template details & review status by Meta ID */
+export const getTemplate = async (metaId) => {
+  const token = process.env.META_ACCESS_TOKEN || TOKEN;
+  const res = await axios.get(`https://graph.facebook.com/v21.0/${metaId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+    params: { fields: 'name,status,category,language,components,id,rejected_reason' }
+  });
+  return res.data;
+};
+
+/** Create a new template on Meta WABA */
+export const createTemplate = async (payload) => {
+  const wabaId = process.env.WABA_ID;
+  const token = process.env.META_ACCESS_TOKEN || TOKEN;
+  if (!wabaId) throw new Error('WABA_ID is not configured');
+  const res = await axios.post(`https://graph.facebook.com/v21.0/${wabaId}/message_templates`, payload, {
+    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }
+  });
+  return res.data;
+};
+
+/** Delete a template from Meta WABA by name */
+export const deleteTemplate = async (name) => {
+  const wabaId = process.env.WABA_ID;
+  const token = process.env.META_ACCESS_TOKEN || TOKEN;
+  if (!wabaId) throw new Error('WABA_ID is not configured');
+  const res = await axios.delete(`https://graph.facebook.com/v21.0/${wabaId}/message_templates`, {
+    headers: { Authorization: `Bearer ${token}` },
+    params: { name }
+  });
+  return res.data;
+};
+
+/** Upload header sample file (for media templates) */
+export const uploadHeaderSample = async ({ fileUrl, fileName, fileType }) => {
+  const appId = process.env.APP_ID || process.env.WA_APP_ID;
+  const appSecret = process.env.APP_SECRET || process.env.WA_APP_SECRET;
+  const token = process.env.META_ACCESS_TOKEN || TOKEN;
+  if (!appId || !appSecret) throw new Error('APP_ID / APP_SECRET not configured for header upload');
+
+  const fileResp = await axios.get(fileUrl, { responseType: 'arraybuffer' });
+  const buffer = Buffer.from(fileResp.data);
+  const respMime = (fileResp.headers['content-type'] || '').split(';')[0].trim().toLowerCase();
+  const mime = fileType || respMime || 'application/octet-stream';
+
+  const appAccessToken = `${appId}|${appSecret}`;
+  const createResp = await axios.post(`https://graph.facebook.com/v21.0/${appId}/uploads`, null, {
+    params: { file_name: fileName || 'header', file_length: buffer.length, file_type: mime, access_token: appAccessToken }
+  });
+  const sessionId = createResp.data.id;
+
+  const uploadResp = await axios.post(`https://graph.facebook.com/v21.0/${sessionId}`, buffer, {
+    headers: { Authorization: `OAuth ${token}`, file_offset: '0', 'Content-Type': mime },
+    maxBodyLength: Infinity,
+    maxContentLength: Infinity
+  });
+  const handle = uploadResp.data?.h;
+  if (!handle) throw new Error('No header handle returned from Meta upload');
+  return { header_handle: handle };
+};
+
+/** Send Template message with parameters */
+export const sendTemplate = async (phone, templateName, { languageCode = 'en_US', headerImageUrl = null, bodyParams = [], buttonUrlParam = null } = {}) => {
+  const components = [];
+  if (headerImageUrl) {
+    components.push({
+      type: 'header',
+      parameters: [{ type: 'image', image: { link: headerImageUrl } }]
+    });
+  }
+  if (bodyParams && bodyParams.length > 0) {
+    components.push({
+      type: 'body',
+      parameters: bodyParams.map((t) => ({ type: 'text', text: String(t) }))
+    });
+  }
+  if (buttonUrlParam) {
+    components.push({
+      type: 'button',
+      sub_type: 'url',
+      index: '0',
+      parameters: [{ type: 'text', text: buttonUrlParam }]
+    });
+  }
+
+  const payload = {
+    messaging_product: 'whatsapp',
+    to: cleanPhone(phone),
+    type: 'template',
+    template: {
+      name: templateName,
+      language: { code: languageCode },
+      ...(components.length ? { components } : {})
+    }
+  };
+
+  return postMessage(payload);
+};
+
 export default {
   sendTextMessage,
   sendImageMessage,
@@ -253,5 +364,11 @@ export default {
   sendInteractiveButtonMessage,
   sendInteractiveCTAUrlMessage,
   sendInteractiveFlowMessage,
-  sendOrderRequestedNotification
+  sendOrderRequestedNotification,
+  listTemplates,
+  getTemplate,
+  createTemplate,
+  deleteTemplate,
+  uploadHeaderSample,
+  sendTemplate
 };

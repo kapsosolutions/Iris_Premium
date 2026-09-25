@@ -33,11 +33,11 @@ export default function App() {
   const [prefillData, setPrefillData] = useState(null);
 
   useEffect(() => {
-    // Check if URL is /admin, /admin/crm, or /admin/login
+    // Check if URL is /admin, /admin/crm, /crm, or /admin/login
     const path = window.location.pathname;
-    if (path.startsWith('/admin')) {
+    if (path.startsWith('/admin') || path === '/crm' || path === '/crn') {
       setIsAdminPath(true);
-      if (path === '/admin/crm') {
+      if (path === '/admin/crm' || path === '/crm' || path === '/crn') {
         setIsStandaloneCRM(true);
       }
       const token = localStorage.getItem('adminToken');
@@ -45,7 +45,7 @@ export default function App() {
     }
 
     // Initialize Lenis smooth scroll for main site
-    if (!path.startsWith('/admin')) {
+    if (!path.startsWith('/admin') && path !== '/crm' && path !== '/crn') {
       const lenis = new Lenis({
         duration: 1.2,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),

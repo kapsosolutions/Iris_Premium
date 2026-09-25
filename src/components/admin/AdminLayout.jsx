@@ -168,30 +168,57 @@ export default function AdminLayout({ activeTab, setActiveTab, onLogout, childre
             <nav style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
               {menuItems.map((item) => {
                 const isActive = activeTab === item.id;
+                const isCrm = item.id === 'whatsapp-crm';
                 return (
                   <button
                     key={item.id}
-                    onClick={() => setActiveTab(item.id)}
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (isCrm) {
+                        window.open('/admin/crm', '_blank');
+                      } else {
+                        setActiveTab(item.id);
+                      }
+                    }}
                     style={{
                       display: 'flex',
                       alignItems: 'center',
+                      justifyContent: 'space-between',
                       gap: '10px',
                       padding: '8px 12px',
                       borderRadius: 'var(--radius-smallbuttons)',
                       border: 'none',
-                      backgroundColor: isActive ? 'var(--color-electric-blue)' : 'transparent',
-                      color: isActive ? '#ffffff' : 'var(--color-primary-ink)',
-                      fontWeight: isActive ? 600 : 400,
+                      backgroundColor: isActive && !isCrm ? 'var(--color-electric-blue)' : 'transparent',
+                      color: isActive && !isCrm ? '#ffffff' : 'var(--color-primary-ink)',
+                      fontWeight: isActive && !isCrm ? 600 : 400,
                       fontSize: '13px',
                       cursor: 'pointer',
                       textAlign: 'left',
                       transition: 'all 0.15s ease'
                     }}
                   >
-                    <span style={{ display: 'flex', alignItems: 'center', color: isActive ? '#ffffff' : 'var(--color-electric-blue)' }}>
-                      {item.icon}
-                    </span>
-                    {item.label}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <span style={{ display: 'flex', alignItems: 'center', color: isActive && !isCrm ? '#ffffff' : 'var(--color-electric-blue)' }}>
+                        {item.icon}
+                      </span>
+                      {item.label}
+                    </div>
+                    {isCrm && (
+                      <span style={{
+                        fontSize: '10px',
+                        color: 'var(--color-mid-gray)',
+                        backgroundColor: 'var(--color-hairline)',
+                        padding: '2px 6px',
+                        borderRadius: '6px',
+                        fontWeight: 500,
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '2px'
+                      }}>
+                        New Tab ↗
+                      </span>
+                    )}
                   </button>
                 );
               })}
