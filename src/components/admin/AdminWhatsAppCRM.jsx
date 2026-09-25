@@ -18,6 +18,159 @@ const C = {
   hairlineSoft: 'rgba(28,30,33,0.06)'
 };
 
+// ---- Crisp Professional SVG Icons (replacing all emojis) -------------------
+
+const IconTimer = ({ size = 14, color = 'currentColor' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+    <circle cx="12" cy="12" r="10"></circle>
+    <polyline points="12 6 12 12 16 14"></polyline>
+  </svg>
+);
+
+const IconAlertCircle = ({ size = 14, color = 'currentColor' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+    <circle cx="12" cy="12" r="10"></circle>
+    <line x1="12" y1="8" x2="12" y2="12"></line>
+    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+  </svg>
+);
+
+const IconExcel = ({ size = 16, color = 'currentColor' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+    <polyline points="14 2 14 8 20 8"></polyline>
+    <path d="M8 13l3 4"></path>
+    <path d="M11 13l-3 4"></path>
+    <path d="M15 13h2"></path>
+    <path d="M15 17h2"></path>
+  </svg>
+);
+
+const IconTemplate = ({ size = 16, color = 'currentColor' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+    <line x1="3" y1="9" x2="21" y2="9"></line>
+    <line x1="9" y1="21" x2="9" y2="9"></line>
+  </svg>
+);
+
+const IconPaperclip = ({ size = 16, color = 'currentColor' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+    <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
+  </svg>
+);
+
+const IconSend = ({ size = 15, color = 'currentColor' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+    <line x1="22" y1="2" x2="11" y2="13"></line>
+    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+  </svg>
+);
+
+const IconZap = ({ size = 14, color = 'currentColor' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+  </svg>
+);
+
+const IconExternalLink = ({ size = 14, color = 'currentColor' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+    <polyline points="15 3 21 3 21 9"></polyline>
+    <line x1="10" y1="14" x2="21" y2="3"></line>
+  </svg>
+);
+
+const IconList = ({ size = 14, color = 'currentColor' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+    <line x1="8" y1="6" x2="21" y2="6"></line>
+    <line x1="8" y1="12" x2="21" y2="12"></line>
+    <line x1="8" y1="18" x2="21" y2="18"></line>
+    <circle cx="4" cy="6" r="1.5" fill="currentColor"></circle>
+    <circle cx="4" cy="12" r="1.5" fill="currentColor"></circle>
+    <circle cx="4" cy="18" r="1.5" fill="currentColor"></circle>
+  </svg>
+);
+
+const IconPhone = ({ size = 14, color = 'currentColor' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+  </svg>
+);
+
+const IconMessage = ({ size = 14, color = 'currentColor' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+  </svg>
+);
+
+const IconMapPin = ({ size = 14, color = 'currentColor' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+    <circle cx="12" cy="10" r="3"></circle>
+  </svg>
+);
+
+const IconReceipt = ({ size = 14, color = 'currentColor' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+    <polyline points="14 2 14 8 20 8"></polyline>
+    <line x1="16" y1="13" x2="8" y2="13"></line>
+    <line x1="16" y1="17" x2="8" y2="17"></line>
+    <polyline points="10 9 9 9 8 9"></polyline>
+  </svg>
+);
+
+const IconFile = ({ size = 14, color = 'currentColor' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+    <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+    <polyline points="13 2 13 9 20 9"></polyline>
+  </svg>
+);
+
+const IconRefresh = ({ size = 14, color = 'currentColor' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+    <polyline points="23 4 23 10 17 10"></polyline>
+    <polyline points="1 20 1 14 7 14"></polyline>
+    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+  </svg>
+);
+
+const IconPlus = ({ size = 14, color = 'currentColor' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+    <line x1="12" y1="5" x2="12" y2="19"></line>
+    <line x1="5" y1="12" x2="19" y2="12"></line>
+  </svg>
+);
+
+const IconX = ({ size = 14, color = 'currentColor' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+    <line x1="18" y1="6" x2="6" y2="18"></line>
+    <line x1="6" y1="6" x2="18" y2="18"></line>
+  </svg>
+);
+
+const IconUpload = ({ size = 14, color = 'currentColor' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+    <polyline points="17 8 12 3 7 8"></polyline>
+    <line x1="12" y1="3" x2="12" y2="15"></line>
+  </svg>
+);
+
+const IconCheck = ({ size = 14, color = 'currentColor' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+    <polyline points="20 6 9 17 4 12"></polyline>
+  </svg>
+);
+
+const IconTrash = ({ size = 14, color = 'currentColor' }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+    <polyline points="3 6 5 6 21 6"></polyline>
+    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+  </svg>
+);
+
 // ---- helpers ---------------------------------------------------------------
 
 function dayLabel(dateStr) {
@@ -32,7 +185,17 @@ function dayLabel(dateStr) {
   return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
 }
 
-// Escape HTML then apply *bold* and _italics_ (XSS-safe).
+// Clean emojis from button strings so SVG icon displays crisply
+function cleanButtonText(str) {
+  if (!str) return '';
+  const cleaned = String(str)
+    .replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1FA00}-\u{1FAFF}]/gu, '')
+    .replace(/[📱⚡🏷️🧾💬🔗📞📋]/g, '')
+    .trim();
+  return cleaned || str;
+}
+
+// Escape HTML then apply *bold* and _italics_ (XSS-safe)
 function formatText(txt) {
   if (!txt) return '';
   let s = String(txt).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -56,7 +219,11 @@ function DeliveryMark({ status }) {
   const label = { sent: 'Sent', delivered: 'Delivered', read: 'Read', failed: 'Failed to send' }[status] || 'Delivered';
 
   if (status === 'failed') {
-    return <span title="Failed to send" style={{ color: C.danger, fontWeight: 600, marginLeft: 3 }}>✕</span>;
+    return (
+      <span title="Failed to send" style={{ color: C.danger, display: 'inline-flex', alignItems: 'center', marginLeft: 3 }}>
+        <IconX size={11} color={C.danger} />
+      </span>
+    );
   }
   const isRead = status === 'read';
   const isDouble = isRead || status === 'delivered' || !status;
@@ -118,7 +285,7 @@ function parseRich(m) {
 
     // Fallback: If messageType is 'flow' and no button parsed yet
     if (messageType === 'flow' && buttons.length === 0) {
-      buttons.push({ kind: 'flow', text: 'Choose Service 📱' });
+      buttons.push({ kind: 'flow', text: 'Choose Service' });
     }
 
     const isDoc = mediaUrl.toLowerCase().endsWith('.pdf');
@@ -153,14 +320,15 @@ function parseRich(m) {
   return null;
 }
 
-// ---- rich renderers (ink text on light bubbles) ----------------------------
+// ---- rich renderers (SVG icons instead of emojis) --------------------------
 
 function OrderCard({ rich }) {
   if (!rich || !rich.items) return null;
   return (
     <div style={{ minWidth: 260, maxWidth: 360, color: C.ink }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontWeight: 600, fontSize: 13.5, marginBottom: 8 }}>
-        🧾 Order • {rich.items.length} item{rich.items.length !== 1 ? 's' : ''}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontWeight: 600, fontSize: 13.5, marginBottom: 8, color: C.greenDeep }}>
+        <IconReceipt size={16} color={C.greenDeep} />
+        Order • {rich.items.length} item{rich.items.length !== 1 ? 's' : ''}
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
         {rich.items.map((it, i) => (
@@ -194,14 +362,18 @@ function LocationCard({ rich }) {
   const label = rich.address || rich.name || (rich.latitude != null ? `${rich.latitude}, ${rich.longitude}` : 'Location');
   return (
     <div style={{ minWidth: 220, maxWidth: 320, color: C.ink }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontWeight: 600, fontSize: 13.5, marginBottom: 6 }}>📍 Shared location</div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontWeight: 600, fontSize: 13.5, marginBottom: 6, color: C.link }}>
+        <IconMapPin size={16} color={C.link} />
+        Shared location
+      </div>
       {rich.name && <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 2 }}>{rich.name}</div>}
       <div style={{ fontSize: 12.5, color: C.inkMuted, lineHeight: 1.4, whiteSpace: 'pre-wrap' }}>{label}</div>
       {rich.latitude != null && <div style={{ fontSize: 11, color: C.inkMuted, marginTop: 4 }}>{rich.latitude}, {rich.longitude}</div>}
       {rich.mapUrl && (
         <a href={rich.mapUrl} target="_blank" rel="noreferrer"
-          style={{ display: 'inline-flex', alignItems: 'center', gap: 5, marginTop: 8, fontSize: 12, fontWeight: 600, color: C.greenDeep, textDecoration: 'none' }}>
-          🗺️ Open in Google Maps
+          style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 8, fontSize: 12.5, fontWeight: 600, color: C.greenDeep, textDecoration: 'none' }}>
+          <IconExternalLink size={14} color={C.greenDeep} />
+          Open in Google Maps
         </a>
       )}
     </div>
@@ -209,10 +381,18 @@ function LocationCard({ rich }) {
 }
 
 function FlowCard({ rich }) {
-  if (!rich || !rich.fields?.length) return <div style={{ fontSize: 13, fontWeight: 600, color: C.ink }}>📋 Form response</div>;
+  if (!rich || !rich.fields?.length) return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, fontWeight: 600, color: C.ink }}>
+      <IconReceipt size={14} color={C.greenDeep} />
+      Form response
+    </div>
+  );
   return (
     <div style={{ minWidth: 240, maxWidth: 340, color: C.ink }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontWeight: 600, fontSize: 13.5, marginBottom: 8 }}>📋 Form response</div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontWeight: 600, fontSize: 13.5, marginBottom: 8, color: C.greenDeep }}>
+        <IconReceipt size={15} color={C.greenDeep} />
+        Form response
+      </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
         {rich.fields.map((f, i) => (
           <div key={i} style={{ display: 'flex', justifyContent: 'space-between', gap: 12, fontSize: 12.5 }}>
@@ -225,7 +405,7 @@ function FlowCard({ rich }) {
   );
 }
 
-// Outbound bot/agent message: image/doc header + body + interactive buttons
+// Outbound bot/agent message with SVG icons
 function BotCard({ rich }) {
   if (!rich) return null;
   const btnStyle = {
@@ -245,7 +425,15 @@ function BotCard({ rich }) {
     background: 'transparent',
     boxSizing: 'border-box'
   };
-  const iconFor = (kind) => (kind === 'flow' ? '⚡ ' : kind === 'list' ? '📋 ' : kind === 'location' ? '📍 ' : kind === 'pay' ? '💳 ' : '💬 ');
+
+  const renderIcon = (kind) => {
+    if (kind === 'flow') return <IconZap size={15} color={C.link} />;
+    if (kind === 'list') return <IconList size={15} color={C.link} />;
+    if (kind === 'location') return <IconMapPin size={15} color={C.link} />;
+    if (kind === 'url') return <IconExternalLink size={15} color={C.link} />;
+    if (kind === 'phone' || kind === 'PHONE_NUMBER') return <IconPhone size={15} color={C.link} />;
+    return <IconMessage size={15} color={C.link} />;
+  };
 
   return (
     <div style={{ minWidth: 260, maxWidth: 380, color: C.ink }}>
@@ -267,8 +455,9 @@ function BotCard({ rich }) {
 
       {/* Header Document */}
       {rich.headerDocName && (
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(28,30,33,0.05)', borderRadius: 10, padding: '8px 12px', marginBottom: 10, fontSize: 12.5, fontWeight: 600 }}>
-          📄 {rich.headerDocName}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(28,30,33,0.05)', borderRadius: 10, padding: '8px 12px', marginBottom: 10, fontSize: 12.5, fontWeight: 600, color: C.link }}>
+          <IconFile size={16} color={C.link} />
+          {rich.headerDocName}
         </div>
       )}
 
@@ -299,13 +488,21 @@ function BotCard({ rich }) {
         </div>
       )}
 
-      {/* Interactive WhatsApp Buttons */}
+      {/* Interactive WhatsApp Buttons with SVG Icons */}
       {(rich.buttons?.length > 0 || rich.cta) && (
         <div style={{ marginTop: 10, borderTop: `1px solid ${C.hairline}`, paddingTop: 4, display: 'flex', flexDirection: 'column' }}>
           {rich.cta && (
-            rich.cta.url
-              ? <a href={rich.cta.url} target="_blank" rel="noreferrer" style={btnStyle}>🔗 {rich.cta.text}</a>
-              : <div style={btnStyle}>🔗 {rich.cta.text}</div>
+            rich.cta.url ? (
+              <a href={rich.cta.url} target="_blank" rel="noreferrer" style={btnStyle}>
+                <IconExternalLink size={15} color={C.link} />
+                <span>{cleanButtonText(rich.cta.text)}</span>
+              </a>
+            ) : (
+              <div style={btnStyle}>
+                <IconExternalLink size={15} color={C.link} />
+                <span>{cleanButtonText(rich.cta.text)}</span>
+              </div>
+            )
           )}
           {rich.buttons?.map((b, i) => (
             <div
@@ -315,7 +512,8 @@ function BotCard({ rich }) {
                 borderTop: (i > 0 || rich.cta) ? `1px solid ${C.hairlineSoft}` : 'none'
               }}
             >
-              {iconFor(b.kind)}{b.text}
+              {renderIcon(b.kind || b.type)}
+              <span>{cleanButtonText(b.text)}</span>
             </div>
           ))}
         </div>
@@ -561,7 +759,8 @@ export default function AdminWhatsAppCRM({ isFullView = true }) {
         <div style={{ marginLeft: 'auto', display: 'flex', gap: 12, alignItems: 'center', flexShrink: 0 }}>
           {active && <WindowTimer lastInboundAt={lastInboundAt} />}
           <button type="button" onClick={downloadContacts} disabled={exporting} style={excelBtn}>
-            📊 {exporting ? 'Preparing...' : 'Download Excel'}
+            <IconExcel size={15} color={C.ink} />
+            <span>{exporting ? 'Preparing...' : 'Download Excel'}</span>
           </button>
         </div>
       </header>
@@ -693,7 +892,7 @@ export default function AdminWhatsAppCRM({ isFullView = true }) {
         }}>
           {active ? (
             <>
-              {/* Messages Stream Container (Contained Scroll, NEVER Scrolls Window) */}
+              {/* Messages Stream Container */}
               <div
                 ref={chatScrollRef}
                 style={{
@@ -773,10 +972,13 @@ export default function AdminWhatsAppCRM({ isFullView = true }) {
               {/* Media Preview Banner if attached */}
               {mediaUrl && (
                 <div style={{ padding: '8px 20px', background: C.surface, borderTop: `1px solid ${C.hairline}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <span style={{ fontSize: 12, fontWeight: 600, color: C.greenDeep }}>
-                    📎 Media ready to send: {mediaUrl}
-                  </span>
-                  <button type="button" onClick={() => setMediaUrl('')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: C.danger, fontWeight: 'bold' }}>✕</button>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 600, color: C.greenDeep }}>
+                    <IconPaperclip size={14} color={C.greenDeep} />
+                    <span>Media attached: {mediaUrl}</span>
+                  </div>
+                  <button type="button" onClick={() => setMediaUrl('')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: C.danger, display: 'flex', alignItems: 'center' }}>
+                    <IconX size={14} color={C.danger} />
+                  </button>
                 </div>
               )}
 
@@ -793,10 +995,11 @@ export default function AdminWhatsAppCRM({ isFullView = true }) {
                 <button
                   type="button"
                   onClick={() => { setShowTemplates(true); loadTemplates(); }}
-                  style={templatesBtn}
+                  style={{ ...templatesBtn, display: 'flex', alignItems: 'center', gap: 6 }}
                   title="Message templates"
                 >
-                  📄 Templates
+                  <IconTemplate size={15} color={C.ink} />
+                  <span>Templates</span>
                 </button>
 
                 {/* Media Attachment Upload Button */}
@@ -816,7 +1019,7 @@ export default function AdminWhatsAppCRM({ isFullView = true }) {
                     display: 'inline-flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    padding: '8px 12px',
+                    padding: '9px 12px',
                     borderRadius: 9999,
                     border: `1px solid ${C.hairline}`,
                     background: C.surface,
@@ -825,7 +1028,7 @@ export default function AdminWhatsAppCRM({ isFullView = true }) {
                   }}
                   title="Attach Image or PDF"
                 >
-                  {uploadingMedia ? '...' : '📎'}
+                  {uploadingMedia ? <IconRefresh size={16} color={C.inkMuted} /> : <IconPaperclip size={16} color={C.inkMuted} />}
                 </label>
 
                 <input
@@ -837,8 +1040,9 @@ export default function AdminWhatsAppCRM({ isFullView = true }) {
                   style={msgInput}
                 />
 
-                <button type="button" onClick={send} style={sendBtn}>
-                  Send
+                <button type="button" onClick={send} style={{ ...sendBtn, display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <IconSend size={14} color={C.ink} />
+                  <span>Send</span>
                 </button>
               </div>
             </>
@@ -863,7 +1067,7 @@ export default function AdminWhatsAppCRM({ isFullView = true }) {
   );
 }
 
-// ---- 24h customer-service window timer (red when under 10h) -----------------
+// ---- 24h customer-service window timer with SVG Icons -----------------------
 function WindowTimer({ lastInboundAt }) {
   const [, tick] = useState(0);
   useEffect(() => {
@@ -886,7 +1090,8 @@ function WindowTimer({ lastInboundAt }) {
   if (!lastInboundAt) {
     return (
       <span style={{ ...base, background: 'rgba(28,30,33,0.06)', color: C.inkMuted, border: `1px solid ${C.hairline}` }}>
-        ⏳ No window
+        <IconTimer size={13} color={C.inkMuted} />
+        <span>No window</span>
       </span>
     );
   }
@@ -895,7 +1100,8 @@ function WindowTimer({ lastInboundAt }) {
   if (remaining <= 0) {
     return (
       <span style={{ ...base, background: '#fde4e6', color: C.danger, border: '1px solid rgba(192,50,43,0.4)' }}>
-        ⛔ Window closed
+        <IconAlertCircle size={13} color={C.danger} />
+        <span>Window closed</span>
       </span>
     );
   }
@@ -911,7 +1117,8 @@ function WindowTimer({ lastInboundAt }) {
 
   return (
     <span style={{ ...base, ...skin }} title="WhatsApp customer-service window (24h). Turns red under 10h left.">
-      ⏱ {hh}:{mm}:{ss}
+      <IconTimer size={13} color={danger ? C.danger : C.greenDeep} />
+      <span>{hh}:{mm}:{ss}</span>
     </span>
   );
 }
@@ -927,7 +1134,7 @@ const STATUS_BADGE = {
   IN_APPEAL: { background: '#fff5d6', color: '#9a7a1c', border: '1px solid rgba(154,122,28,0.4)' }
 };
 
-// ---- WhatsApp-style preview of a template ----------------------------------
+// ---- WhatsApp-style preview of a template with SVG icons -------------------
 function TemplatePreview({ t }) {
   return (
     <div style={{ background: C.canvas, borderRadius: 18, padding: 10, marginTop: 8 }}>
@@ -939,7 +1146,10 @@ function TemplatePreview({ t }) {
           <video src={t.headerUrl} controls style={{ width: '100%', maxHeight: 160 }} />
         )}
         {t.headerType === 'document' && t.headerUrl && (
-          <div style={{ padding: '8px 10px', fontSize: 12, color: C.link }}>📄 Document</div>
+          <div style={{ padding: '8px 10px', fontSize: 12, color: C.link, display: 'flex', alignItems: 'center', gap: 6 }}>
+            <IconFile size={14} color={C.link} />
+            <span>Document</span>
+          </div>
         )}
         {t.headerType === 'text' && t.headerText && (
           <div style={{ padding: '8px 10px 0', fontWeight: 600, fontSize: 13, color: C.ink }}>{t.headerText}</div>
@@ -950,8 +1160,9 @@ function TemplatePreview({ t }) {
       {(t.buttons || []).length > 0 && (
         <div style={{ marginTop: 6, display: 'flex', flexDirection: 'column', gap: 4 }}>
           {t.buttons.map((b, i) => (
-            <div key={i} style={{ textAlign: 'center', padding: 7, fontSize: 12.5, fontWeight: 600, color: C.greenDeep, background: C.surface, border: `1px solid ${C.hairline}`, borderRadius: 9999 }}>
-              {b.type === 'URL' ? '🔗 ' : b.type === 'PHONE_NUMBER' ? '📞 ' : '💬 '}{b.text}
+            <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, textAlign: 'center', padding: 7, fontSize: 12.5, fontWeight: 600, color: C.greenDeep, background: C.surface, border: `1px solid ${C.hairline}`, borderRadius: 9999 }}>
+              {b.type === 'URL' ? <IconExternalLink size={13} color={C.greenDeep} /> : b.type === 'PHONE_NUMBER' ? <IconPhone size={13} color={C.greenDeep} /> : <IconMessage size={13} color={C.greenDeep} />}
+              <span>{cleanButtonText(b.text)}</span>
             </div>
           ))}
         </div>
@@ -960,7 +1171,7 @@ function TemplatePreview({ t }) {
   );
 }
 
-// ---- Templates drawer (list + create + submit/refresh/delete/send) ---------
+// ---- Templates drawer with SVG action icons --------------------------------
 function TemplatesDrawer({ templates, reload, activePhone, onClose }) {
   const [editing, setEditing] = useState(false);
   const [busyId, setBusyId] = useState(null);
@@ -1050,13 +1261,13 @@ function TemplatesDrawer({ templates, reload, activePhone, onClose }) {
           <div style={{ fontWeight: 600, fontSize: 18 }}>Templates</div>
           <div style={{ display: 'flex', gap: 6 }}>
             <button type="button" onClick={sync} disabled={syncing} style={iconRound} title="Sync from Meta">
-              {syncing ? '...' : '🔄'}
+              <IconRefresh size={14} color={C.ink} />
             </button>
             <button type="button" onClick={() => setEditing(true)} style={{ ...iconRound, background: C.green, color: C.ink, border: `1px solid ${C.green}` }} title="New template">
-              +
+              <IconPlus size={14} color={C.ink} />
             </button>
             <button type="button" onClick={onClose} style={iconRound} title="Close">
-              ✕
+              <IconX size={14} color={C.ink} />
             </button>
           </div>
         </div>
@@ -1064,7 +1275,7 @@ function TemplatesDrawer({ templates, reload, activePhone, onClose }) {
         <div style={{ flex: 1, overflowY: 'auto', padding: 16, display: 'flex', flexDirection: 'column', gap: 10 }}>
           {templates.length === 0 && (
             <div style={{ padding: 24, textAlign: 'center', color: C.inkMuted, fontSize: 13 }}>
-              No templates found. Click <strong>+</strong> to create a new template or 🔄 to sync from Meta.
+              No templates found. Click <strong>+</strong> to create a new template or sync from Meta.
             </div>
           )}
 
@@ -1106,8 +1317,9 @@ function TemplatesDrawer({ templates, reload, activePhone, onClose }) {
                         </button>
                       )}
                       {t.status !== 'DRAFT' && t.status !== 'APPROVED' && (
-                        <button type="button" onClick={() => refresh(t._id)} disabled={busyId === t._id} style={ghostMini}>
-                          🔄 Refresh
+                        <button type="button" onClick={() => refresh(t._id)} disabled={busyId === t._id} style={{ ...ghostMini, display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+                          <IconRefresh size={13} color={C.ink} />
+                          <span>Refresh</span>
                         </button>
                       )}
                       {t.status === 'APPROVED' && (
@@ -1115,8 +1327,9 @@ function TemplatesDrawer({ templates, reload, activePhone, onClose }) {
                           {busyId === t._id ? 'Sending...' : 'Send to chat'}
                         </button>
                       )}
-                      <button type="button" onClick={() => remove(t._id)} disabled={busyId === t._id} style={{ ...ghostMini, color: C.danger, marginLeft: 'auto' }}>
-                        Delete
+                      <button type="button" onClick={() => remove(t._id)} disabled={busyId === t._id} style={{ ...ghostMini, color: C.danger, marginLeft: 'auto', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                        <IconTrash size={13} color={C.danger} />
+                        <span>Delete</span>
                       </button>
                     </div>
                   </div>
@@ -1158,7 +1371,7 @@ function TemplatesDrawer({ templates, reload, activePhone, onClose }) {
   );
 }
 
-// ---- Template create form --------------------------------------------------
+// ---- Template create form with SVG icons ------------------------------------
 const TPL_LANGS = [
   { code: 'en_US', label: 'English (US)' },
   { code: 'en', label: 'English' },
@@ -1279,7 +1492,9 @@ function TemplateEditor({ onClose, onCreated }) {
     <div style={{ position: 'absolute', inset: 0, background: C.canvas, display: 'flex', flexDirection: 'column', zIndex: 8 }}>
       <div style={drawerHeader}>
         <div style={{ fontWeight: 600, fontSize: 16 }}>New Template</div>
-        <button type="button" onClick={onClose} style={iconRound}>✕</button>
+        <button type="button" onClick={onClose} style={iconRound}>
+          <IconX size={14} color={C.ink} />
+        </button>
       </div>
 
       <div style={{ flex: 1, overflowY: 'auto', padding: 16, display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -1335,14 +1550,18 @@ function TemplateEditor({ onClose, onCreated }) {
           {['image', 'video', 'document'].includes(headerType) && (
             <div style={{ marginTop: 8 }}>
               <label style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '9px 16px', background: C.surface, border: `1px solid ${C.hairline}`, borderRadius: 9999, cursor: 'pointer', fontSize: 13, fontWeight: 600 }}>
-                📁 {uploading ? 'Uploading...' : headerUrl ? 'Replace file' : `Upload ${headerType}`}
+                <IconUpload size={14} color={C.ink} />
+                <span>{uploading ? 'Uploading...' : headerUrl ? 'Replace file' : `Upload ${headerType}`}</span>
                 <input type="file" hidden accept={headerType === 'image' ? 'image/*' : headerType === 'video' ? 'video/mp4' : '.pdf'} onChange={onFile} />
               </label>
               {headerUrl && headerType === 'image' && (
                 <img src={headerUrl} alt="" style={{ display: 'block', marginTop: 8, maxHeight: 130, borderRadius: 12 }} />
               )}
               {headerUrl && headerType !== 'image' && (
-                <div style={{ marginTop: 8, fontSize: 12, color: C.greenDeep }}>✓ File uploaded</div>
+                <div style={{ marginTop: 8, fontSize: 12, color: C.greenDeep, display: 'flex', alignItems: 'center', gap: 5 }}>
+                  <IconCheck size={14} color={C.greenDeep} />
+                  <span>File uploaded</span>
+                </div>
               )}
             </div>
           )}
@@ -1374,8 +1593,9 @@ function TemplateEditor({ onClose, onCreated }) {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div style={lbl}>Buttons (up to 3)</div>
             {buttons.length < 3 && (
-              <button type="button" onClick={addButton} style={{ ...ghostMini, padding: '5px 12px' }}>
-                + Add
+              <button type="button" onClick={addButton} style={{ ...ghostMini, padding: '5px 12px', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                <IconPlus size={12} color={C.ink} />
+                <span>Add</span>
               </button>
             )}
           </div>
@@ -1411,7 +1631,7 @@ function TemplateEditor({ onClose, onCreated }) {
                   />
                 )}
                 <button type="button" onClick={() => rmBtn(i)} style={{ ...iconRound, color: C.danger }}>
-                  ✕
+                  <IconX size={14} color={C.danger} />
                 </button>
               </div>
             ))}
@@ -1442,12 +1662,15 @@ const excelBtn = {
   color: C.ink,
   border: `1px solid ${C.ink}`,
   borderRadius: 9999,
-  padding: '10px 20px',
+  padding: '10px 18px',
   fontWeight: 600,
   fontSize: 13.5,
   cursor: 'pointer',
   fontFamily: FONT,
-  whiteSpace: 'nowrap'
+  whiteSpace: 'nowrap',
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: 7
 };
 
 const templatesBtn = {
