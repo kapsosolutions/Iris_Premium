@@ -433,19 +433,20 @@ input, select, textarea {
   }
 
   .about-copy-card {
-    background-color: rgba(255, 255, 255, 0.93) !important;
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    padding: 24px 20px !important;
-    border-radius: 24px !important;
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    background-color: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
   }
 
   .about-section-container {
     background-image: url("/about_mobile.png");
-    background-size: 100% auto;
-    background-position: center bottom;
-    padding: 36px 0 clamp(280px, 72vw, 440px) 0;
+    background-size: cover;
+    background-position: center top;
+    padding: clamp(48px, 8vw, 80px) 0;
   }
 }
 
