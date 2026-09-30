@@ -233,8 +233,10 @@ export default function AdminLayout({ activeTab, setActiveTab, onLogout, childre
       {/* Main Content Area */}
       <main style={{
         flex: 1,
+        minWidth: 0,
         padding: activeTab === 'whatsapp-crm' ? 0 : '32px 40px',
         overflowY: activeTab === 'whatsapp-crm' ? 'hidden' : 'auto',
+        overflowX: 'hidden',
         height: '100vh',
         boxSizing: 'border-box'
       }}>

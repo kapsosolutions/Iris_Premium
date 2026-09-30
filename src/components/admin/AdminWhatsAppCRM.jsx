@@ -724,9 +724,9 @@ export default function AdminWhatsAppCRM({ isFullView = true }) {
     <div style={{
       fontFamily: FONT,
       fontWeight: 400,
-      height: '100vh',
-      width: '100vw',
-      maxWidth: '100vw',
+      height: isFullView ? '100vh' : '100%',
+      width: '100%',
+      maxWidth: '100%',
       display: 'flex',
       flexDirection: 'column',
       background: C.canvas,
@@ -1856,6 +1856,7 @@ const templatesBtn = {
 
 const msgInput = {
   flex: 1,
+  minWidth: 0,
   padding: '11px 20px',
   background: C.canvas,
   border: `1px solid ${C.hairline}`,
