@@ -39,10 +39,10 @@ export default function AdminLayout({ activeTab, setActiveTab, onLogout, childre
     },
     {
       id: 'whatsapp-crm',
-      label: 'WhatsApp CRM',
+      label: 'CRM',
       icon: (
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984 0 1.762.459 3.48 1.332 4.992l-1.416 5.17 5.291-1.387c1.458.796 3.097 1.216 4.777 1.217h.005c5.503 0 9.987-4.478 9.988-9.984 0-2.668-1.039-5.176-2.926-7.062a9.923 9.923 0 0 0-7.061-2.931zm.005 1.666c4.586 0 8.321 3.731 8.322 8.318 0 2.224-.866 4.314-2.438 5.885-1.572 1.57-3.664 2.435-5.888 2.435h-.004c-1.453 0-2.884-.39-4.137-1.127l-.297-.176-3.078.807.821-3.003-.194-.308a8.272 8.272 0 0 1-1.27-4.515c.002-4.587 3.737-8.318 8.324-8.318zm-4.18 4.382c-.126 0-.327.047-.498.234-.171.187-.655.64-.655 1.562 0 .921.67 1.811.763 1.936.094.125 1.32 2.016 3.2 2.827.447.193.796.308 1.069.395.449.143.857.123 1.18.075.36-.054 1.107-.452 1.263-.89.156-.437.156-.811.109-.89-.047-.078-.172-.125-.36-.218s-1.107-.546-1.279-.608c-.172-.063-.297-.094-.422.094s-.484.608-.593.733c-.109.125-.219.141-.406.047-.187-.094-.791-.291-1.507-.93-.557-.497-.934-1.111-1.043-1.298-.109-.187-.012-.288.082-.381.084-.083.187-.218.281-.327.094-.109.125-.187.187-.312.063-.125.031-.234-.016-.327s-.422-1.016-.578-1.391c-.152-.365-.307-.316-.422-.321l-.36-.007z"/>
         </svg>
       )
     },
@@ -168,18 +168,13 @@ export default function AdminLayout({ activeTab, setActiveTab, onLogout, childre
             <nav style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
               {menuItems.map((item) => {
                 const isActive = activeTab === item.id;
-                const isCrm = item.id === 'whatsapp-crm';
                 return (
                   <button
                     key={item.id}
                     type="button"
                     onClick={(e) => {
                       e.preventDefault();
-                      if (isCrm) {
-                        window.open('/admin/crm', '_blank');
-                      } else {
-                        setActiveTab(item.id);
-                      }
+                      setActiveTab(item.id);
                     }}
                     style={{
                       display: 'flex',
@@ -189,9 +184,9 @@ export default function AdminLayout({ activeTab, setActiveTab, onLogout, childre
                       padding: '8px 12px',
                       borderRadius: 'var(--radius-smallbuttons)',
                       border: 'none',
-                      backgroundColor: isActive && !isCrm ? 'var(--color-electric-blue)' : 'transparent',
-                      color: isActive && !isCrm ? '#ffffff' : 'var(--color-primary-ink)',
-                      fontWeight: isActive && !isCrm ? 600 : 400,
+                      backgroundColor: isActive ? 'var(--color-electric-blue)' : 'transparent',
+                      color: isActive ? '#ffffff' : 'var(--color-primary-ink)',
+                      fontWeight: isActive ? 600 : 400,
                       fontSize: '13px',
                       cursor: 'pointer',
                       textAlign: 'left',
@@ -199,26 +194,15 @@ export default function AdminLayout({ activeTab, setActiveTab, onLogout, childre
                     }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                      <span style={{ display: 'flex', alignItems: 'center', color: isActive && !isCrm ? '#ffffff' : 'var(--color-electric-blue)' }}>
+                      <span style={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        color: isActive ? '#ffffff' : (item.id === 'whatsapp-crm' ? '#25D366' : 'var(--color-electric-blue)') 
+                      }}>
                         {item.icon}
                       </span>
                       {item.label}
                     </div>
-                    {isCrm && (
-                      <span style={{
-                        fontSize: '10px',
-                        color: 'var(--color-mid-gray)',
-                        backgroundColor: 'var(--color-hairline)',
-                        padding: '2px 6px',
-                        borderRadius: '6px',
-                        fontWeight: 500,
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '2px'
-                      }}>
-                        New Tab ↗
-                      </span>
-                    )}
                   </button>
                 );
               })}

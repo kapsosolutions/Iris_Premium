@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { api } from '../../adminApi';
 import { API_BASE_URL, authHeaders } from '../../config';
+import WaterWaveLoader from '../WaterWaveLoader';
 
 // ---- WhatsApp marketing design tokens (exact FMCG CRM theme) --------------
 const FONT = '"WhatsApp Sans Var", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif';
@@ -537,12 +538,15 @@ export default function AdminWhatsAppCRM({ isFullView = true }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [uploadingMedia, setUploadingMedia] = useState(false);
   const [mediaUrl, setMediaUrl] = useState('');
+  const [loadingThreads, setLoadingThreads] = useState(true);
+  const [loadingChat, setLoadingChat] = useState(false);
 
   const chatScrollRef = useRef(null);
   const activeRef = useRef(null);
   useEffect(() => { activeRef.current = active; }, [active]);
 
-  async function loadThreads() {
+  async function loadThreads(isInitial = false) {
+    if (isInitial) setLoadingThreads(true);
     try {
       const res = await api.get('/crm/threads');
       setThreads(res.data || []);
@@ -551,6 +555,8 @@ export default function AdminWhatsAppCRM({ isFullView = true }) {
       }
     } catch (e) {
       console.error('Failed to load threads:', e);
+    } finally {
+      if (isInitial) setLoadingThreads(false);
     }
   }
 
@@ -565,12 +571,15 @@ export default function AdminWhatsAppCRM({ isFullView = true }) {
 
   async function openThread(phone, smoothScroll = true) {
     setActive(phone);
+    setLoadingChat(true);
     try {
       const res = await api.get(`/crm/messages/${phone}`);
       setMessages(res.data || []);
       scrollToBottom(smoothScroll);
     } catch (e) {
       console.error('Failed to open thread:', e);
+    } finally {
+      setLoadingChat(false);
     }
   }
 
@@ -586,7 +595,7 @@ export default function AdminWhatsAppCRM({ isFullView = true }) {
   }
 
   useEffect(() => {
-    loadThreads();
+    loadThreads(true);
     loadTemplates();
   }, []);
 
@@ -801,7 +810,15 @@ export default function AdminWhatsAppCRM({ isFullView = true }) {
 
           {/* Threads List */}
           <div style={{ flex: 1, overflowY: 'auto' }}>
-            {filteredThreads.length === 0 ? (
+            {loadingThreads ? (
+              <WaterWaveLoader 
+                theme="whatsapp" 
+                size="sm" 
+                text="Loading conversations..." 
+                subtext="Connecting to WhatsApp Cloud"
+                minHeight="220px"
+              />
+            ) : filteredThreads.length === 0 ? (
               <div style={{ padding: 24, textAlign: 'center', color: C.inkMuted, fontSize: 13 }}>
                 No WhatsApp conversations found.
               </div>
@@ -905,7 +922,17 @@ export default function AdminWhatsAppCRM({ isFullView = true }) {
                   boxSizing: 'border-box'
                 }}
               >
-                {messages.length === 0 ? (
+                {loadingChat ? (
+                  <div style={{ margin: 'auto' }}>
+                    <WaterWaveLoader 
+                      theme="whatsapp" 
+                      size="md" 
+                      text={`Loading chat for +${active}...`}
+                      subtext="Syncing WhatsApp messages & attachments"
+                      minHeight="200px"
+                    />
+                  </div>
+                ) : messages.length === 0 ? (
                   <div style={{ margin: 'auto', textAlign: 'center', color: C.inkMuted, fontSize: 13, background: C.surface, padding: '16px 24px', borderRadius: 16, border: `1px solid ${C.hairlineSoft}` }}>
                     No messages logged yet for +{active}. Type below to send a reply!
                   </div>
@@ -1047,8 +1074,46 @@ export default function AdminWhatsAppCRM({ isFullView = true }) {
               </div>
             </>
           ) : (
-            <div style={{ margin: 'auto', textAlign: 'center', color: C.inkMuted }}>
-              Select a conversation on the left to start live chat
+            <div style={{ margin: 'auto', textAlign: 'center', padding: '32px 24px' }}>
+              {loadingThreads ? (
+                <WaterWaveLoader 
+                  theme="whatsapp" 
+                  size="lg" 
+                  text="Loading WhatsApp CRM..." 
+                  subtext="Connecting to official Meta WhatsApp Cloud API stream"
+                  minHeight="220px"
+                />
+              ) : (
+                <div style={{
+                  background: C.surface,
+                  padding: '36px 32px',
+                  borderRadius: 24,
+                  border: `1px solid ${C.hairlineSoft}`,
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.03)',
+                  maxWidth: 380,
+                  margin: '0 auto'
+                }}>
+                  <div style={{
+                    width: 56,
+                    height: 56,
+                    borderRadius: '50%',
+                    background: '#e6ffda',
+                    color: C.greenDeep,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    margin: '0 auto 16px'
+                  }}>
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984 0 1.762.459 3.48 1.332 4.992l-1.416 5.17 5.291-1.387c1.458.796 3.097 1.216 4.777 1.217h.005c5.503 0 9.987-4.478 9.988-9.984 0-2.668-1.039-5.176-2.926-7.062a9.923 9.923 0 0 0-7.061-2.931zm.005 1.666c4.586 0 8.321 3.731 8.322 8.318 0 2.224-.866 4.314-2.438 5.885-1.572 1.57-3.664 2.435-5.888 2.435h-.004c-1.453 0-2.884-.39-4.137-1.127l-.297-.176-3.078.807.821-3.003-.194-.308a8.272 8.272 0 0 1-1.27-4.515c.002-4.587 3.737-8.318 8.324-8.318zm-4.18 4.382c-.126 0-.327.047-.498.234-.171.187-.655.64-.655 1.562 0 .921.67 1.811.763 1.936.094.125 1.32 2.016 3.2 2.827.447.193.796.308 1.069.395.449.143.857.123 1.18.075.36-.054 1.107-.452 1.263-.89.156-.437.156-.811.109-.89-.047-.078-.172-.125-.36-.218s-1.107-.546-1.279-.608c-.172-.063-.297-.094-.422.094s-.484.608-.593.733c-.109.125-.219.141-.406.047-.187-.094-.791-.291-1.507-.93-.557-.497-.934-1.111-1.043-1.298-.109-.187-.012-.288.082-.381.084-.083.187-.218.281-.327.094-.109.125-.187.187-.312.063-.125.031-.234-.016-.327s-.422-1.016-.578-1.391c-.152-.365-.307-.316-.422-.321l-.36-.007z"/>
+                    </svg>
+                  </div>
+                  <h3 style={{ fontSize: 16, fontWeight: 700, color: C.ink, margin: '0 0 6px' }}>Iris WhatsApp Concierge CRM</h3>
+                  <p style={{ fontSize: 13, color: C.inkMuted, margin: 0, lineHeight: 1.5 }}>
+                    Select a conversation on the left to review customer orders, customize bottle proofs, and send instant updates.
+                  </p>
+                </div>
+              )}
             </div>
           )}
         </main>
@@ -1273,14 +1338,21 @@ function TemplatesDrawer({ templates, reload, activePhone, onClose }) {
         </div>
 
         <div style={{ flex: 1, overflowY: 'auto', padding: 16, display: 'flex', flexDirection: 'column', gap: 10 }}>
-          {templates.length === 0 && (
+          {syncing ? (
+            <WaterWaveLoader 
+              theme="whatsapp" 
+              size="sm" 
+              text="Syncing templates with Meta..." 
+              subtext="Fetching WhatsApp Cloud approved templates"
+              minHeight="160px" 
+            />
+          ) : templates.length === 0 ? (
             <div style={{ padding: 24, textAlign: 'center', color: C.inkMuted, fontSize: 13 }}>
               No templates found. Click <strong>+</strong> to create a new template or sync from Meta.
             </div>
-          )}
-
-          {templates.map((t) => {
-            const badge = STATUS_BADGE[t.status] || STATUS_BADGE.DRAFT;
+          ) : (
+            templates.map((t) => {
+              const badge = STATUS_BADGE[t.status] || STATUS_BADGE.DRAFT;
             const isOpen = expandedId === t._id;
 
             return (
@@ -1336,7 +1408,7 @@ function TemplatesDrawer({ templates, reload, activePhone, onClose }) {
                 )}
               </div>
             );
-          })}
+          }))}
         </div>
 
         {editing && (

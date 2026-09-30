@@ -11,6 +11,7 @@ export default function WaterWaveLoader({
   size = 'md', // 'sm' | 'md' | 'lg'
   minHeight = '280px',
   inline = false,
+  theme = 'water', // 'water' | 'whatsapp'
   style = {}
 }) {
   const orbSizes = {
@@ -20,11 +21,12 @@ export default function WaterWaveLoader({
   };
 
   const orbDimensions = orbSizes[size] || orbSizes.md;
+  const isWhatsapp = theme === 'whatsapp';
 
   if (inline) {
     return (
       <div 
-        className="water-wave-loader-inline"
+        className={`water-wave-loader-inline ${isWhatsapp ? 'theme-whatsapp' : ''}`}
         style={{
           display: 'inline-flex',
           alignItems: 'center',
@@ -71,7 +73,7 @@ export default function WaterWaveLoader({
 
   return (
     <div 
-      className="water-wave-loader-container"
+      className={`water-wave-loader-container ${isWhatsapp ? 'theme-whatsapp' : ''}`}
       style={{
         display: 'flex',
         flexDirection: 'column',
