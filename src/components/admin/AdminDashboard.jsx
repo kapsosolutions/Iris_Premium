@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import WaterWaveLoader from '../WaterWaveLoader';
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({
@@ -38,6 +39,38 @@ export default function AdminDashboard() {
 
   const chartData = stats.weeklyData || [];
   const maxLeadVal = Math.max(...chartData.map(d => Math.max(d.leads, d.orders)), 5);
+
+  if (loading) {
+    return (
+      <div>
+        {/* Page Title Header */}
+        <div style={{ marginBottom: '36px' }}>
+          <span className="apple-badge-ember" style={{ display: 'block', marginBottom: '8px' }}>
+            EXECUTIVE OVERVIEW & REAL-TIME ANALYTICS
+          </span>
+          <h1 className="section-title" style={{ marginBottom: '8px' }}>
+            Plant Dashboard.
+          </h1>
+          <p style={{ fontSize: '16px', color: 'var(--color-mid-gray)' }}>
+            Real-time tracking of WhatsApp leads, customer bottle order volumes, and catalogue performance.
+          </p>
+        </div>
+
+        <div style={{
+          backgroundColor: '#ffffff',
+          borderRadius: '20px',
+          border: '1px solid var(--color-hairline)',
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.02)'
+        }}>
+          <WaterWaveLoader 
+            text="Loading real-time plant analytics..." 
+            subtext="Compiling WhatsApp lead volume, orders, and catalogue stats"
+            minHeight="380px"
+          />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import WaterWaveLoader from '../WaterWaveLoader';
 
 export default function AdminFlowImages() {
   const [assets, setAssets] = useState([]);
@@ -232,7 +233,18 @@ export default function AdminFlowImages() {
       </div>
 
       {loading ? (
-        <div style={{ fontSize: '15px', color: 'var(--color-mid-gray)' }}>Loading Meta flow banner assets...</div>
+        <div style={{
+          backgroundColor: '#ffffff',
+          borderRadius: 'var(--radius-cards)',
+          border: '1px solid rgba(0,0,0,0.06)',
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.02)'
+        }}>
+          <WaterWaveLoader 
+            text="Loading Meta flow banner assets..." 
+            subtext="Fetching WhatsApp interactive flow assets and media" 
+            minHeight="320px"
+          />
+        </div>
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))', gap: '24px' }}>
           {defaultKeys.map(item => {

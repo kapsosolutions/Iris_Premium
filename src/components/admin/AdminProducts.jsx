@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import WaterWaveLoader from '../WaterWaveLoader';
 
 export default function AdminProducts() {
   const [products, setProducts] = useState([]);
@@ -258,7 +259,18 @@ export default function AdminProducts() {
 
       {/* Product Cards Grid in 3-Column Layout */}
       {loading ? (
-        <div style={{ fontSize: '15px', color: 'var(--color-mid-gray)' }}>Loading bottle products...</div>
+        <div style={{
+          backgroundColor: '#ffffff',
+          borderRadius: '16px',
+          border: '1px solid var(--color-hairline)',
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.02)'
+        }}>
+          <WaterWaveLoader 
+            text="Loading bottle products..." 
+            subtext="Syncing product catalogue and high-res media" 
+            minHeight="320px"
+          />
+        </div>
       ) : products.length === 0 ? (
         <div className="apple-card" style={{ padding: '48px', textAlign: 'center', color: 'var(--color-mid-gray)', backgroundColor: '#ffffff', borderRadius: '16px' }}>
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ margin: '0 auto 16px', display: 'block', color: 'var(--color-electric-blue)' }}>

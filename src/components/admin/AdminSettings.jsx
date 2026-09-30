@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import WaterWaveLoader from '../WaterWaveLoader';
 
 export default function AdminSettings() {
   const [settings, setSettings] = useState({
@@ -85,7 +86,19 @@ export default function AdminSettings() {
       </div>
 
       {loading ? (
-        <div style={{ fontSize: '15px', color: 'var(--color-mid-gray)' }}>Loading plant settings...</div>
+        <div style={{
+          backgroundColor: '#ffffff',
+          borderRadius: 'var(--radius-cards)',
+          border: '1px solid rgba(0,0,0,0.06)',
+          maxWidth: '650px',
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.02)'
+        }}>
+          <WaterWaveLoader 
+            text="Loading plant settings..." 
+            subtext="Fetching plant configurations & contact details" 
+            minHeight="320px"
+          />
+        </div>
       ) : (
         <form onSubmit={handleSave} className="apple-card" style={{
           backgroundColor: '#ffffff',

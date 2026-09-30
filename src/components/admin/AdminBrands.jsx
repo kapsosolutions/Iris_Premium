@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import WaterWaveLoader from '../WaterWaveLoader';
 
 export default function AdminBrands() {
   const [brands, setBrands] = useState([]);
@@ -365,14 +366,16 @@ export default function AdminBrands() {
       {/* Brands Grid */}
       {loading ? (
         <div style={{
-          padding: '60px',
-          textAlign: 'center',
-          color: 'var(--color-mid-gray)',
           backgroundColor: '#ffffff',
           borderRadius: '20px',
-          border: '1px solid var(--color-hairline)'
+          border: '1px solid var(--color-hairline)',
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.02)'
         }}>
-          <div style={{ fontSize: '16px', fontWeight: 500 }}>Loading brand logos...</div>
+          <WaterWaveLoader 
+            text="Loading brand logos..." 
+            subtext="Fetching partner logos for the homepage infinite ticker" 
+            minHeight="320px"
+          />
         </div>
       ) : brands.length === 0 ? (
         <div style={{

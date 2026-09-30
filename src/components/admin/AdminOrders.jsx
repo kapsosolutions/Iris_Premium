@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import WaterWaveLoader from '../WaterWaveLoader';
 
 export default function AdminOrders() {
   const [orders, setOrders] = useState([]);
@@ -66,7 +67,18 @@ export default function AdminOrders() {
       </div>
 
       {loading ? (
-        <div style={{ fontSize: '15px', color: 'var(--color-mid-gray)' }}>Loading customer order requests...</div>
+        <div style={{
+          backgroundColor: '#ffffff',
+          borderRadius: 'var(--radius-cards)',
+          border: '1px solid rgba(0,0,0,0.06)',
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.02)'
+        }}>
+          <WaterWaveLoader 
+            text="Loading customer order requests..." 
+            subtext="Syncing incoming inquiries, custom bottle proofs, and dispatch timeline" 
+            minHeight="320px"
+          />
+        </div>
       ) : orders.length === 0 ? (
         <div className="apple-card" style={{ padding: '48px', textAlign: 'center', backgroundColor: '#ffffff', borderRadius: 'var(--radius-cards)', border: '1px solid rgba(0,0,0,0.06)' }}>
           <h3 style={{ fontSize: '20px', fontWeight: 600, color: 'var(--color-primary-ink)' }}>No order requests submitted yet.</h3>

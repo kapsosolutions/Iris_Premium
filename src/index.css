@@ -596,3 +596,250 @@ input, select, textarea {
     height: 26px !important;
   }
 }
+
+/* ============================================================
+   WATER WAVE LOADER (Fluid Water Animation - No Black Box)
+   ============================================================ */
+
+.water-wave-loader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+.water-wave-orb-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* Ambient Water Glow behind the orb */
+.water-ambient-glow {
+  position: absolute;
+  width: 130%;
+  height: 130%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(40, 147, 235, 0.28) 0%, rgba(56, 189, 248, 0.1) 45%, transparent 70%);
+  filter: blur(14px);
+  pointer-events: none;
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+/* Gentle water ripple ring */
+.water-ripple-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 1.5px solid rgba(40, 147, 235, 0.35);
+  pointer-events: none;
+  animation: ripplePulse 3s cubic-bezier(0.2, 0.8, 0.4, 1) infinite;
+}
+
+/* Glass Orb Vessel */
+.water-wave-orb {
+  position: relative;
+  border-radius: 50%;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(240, 249, 255, 0.95) 0%, rgba(224, 242, 254, 0.75) 100%);
+  border: 2px solid rgba(56, 189, 248, 0.45);
+  box-shadow: 
+    0 10px 24px -4px rgba(14, 165, 233, 0.25),
+    inset 0 -8px 16px rgba(2, 132, 199, 0.15),
+    inset 0 2px 6px rgba(255, 255, 255, 0.9);
+  animation: waterBob 4s ease-in-out infinite;
+}
+
+/* Liquid Body Container (fills lower part of orb) */
+.water-wave-liquid-track {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 64%;
+  background: linear-gradient(180deg, #2893eb 0%, #0ea5e9 30%, #0284c7 70%, #0369a1 100%);
+  box-shadow: 
+    inset 0 4px 12px rgba(255, 255, 255, 0.35),
+    inset 0 -6px 14px rgba(2, 132, 199, 0.5);
+}
+
+/* Water Wave SVG Layers */
+.water-wave-svg {
+  position: absolute;
+  top: -24px;
+  left: 0;
+  width: 250%;
+  height: 38px;
+  pointer-events: none;
+}
+
+.wave-back {
+  fill: rgba(56, 189, 248, 0.65);
+  animation: waveDriftBack 3.5s linear infinite;
+}
+
+.wave-front {
+  fill: #2893eb;
+  animation: waveDriftFront 2.2s linear infinite;
+}
+
+/* Effervescent Rising Bubbles */
+.water-bubbles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.water-bubbles .bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.75);
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+}
+
+.water-bubbles .b1 {
+  width: 4px;
+  height: 4px;
+  left: 28%;
+  bottom: 6px;
+  animation: bubbleFloat 2.8s ease-in infinite 0.3s;
+}
+
+.water-bubbles .b2 {
+  width: 6px;
+  height: 6px;
+  left: 55%;
+  bottom: 4px;
+  animation: bubbleFloat 3.2s ease-in infinite 1.1s;
+}
+
+.water-bubbles .b3 {
+  width: 3.5px;
+  height: 3.5px;
+  left: 74%;
+  bottom: 8px;
+  animation: bubbleFloat 2.4s ease-in infinite 0.7s;
+}
+
+/* Glass Orb Surface Shine */
+.water-glass-shine {
+  position: absolute;
+  top: 10%;
+  left: 14%;
+  width: 42%;
+  height: 24%;
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.1) 100%);
+  transform: rotate(-30deg);
+  pointer-events: none;
+  filter: blur(0.5px);
+}
+
+.water-glass-rim {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.9), inset 0 -2px 4px rgba(2, 132, 199, 0.2);
+  pointer-events: none;
+}
+
+/* Loading Text & Typography */
+.water-loader-text-wrap {
+  text-align: center;
+  max-width: 380px;
+}
+
+.water-loader-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: #0f172a;
+  letter-spacing: -0.01em;
+  margin: 0 0 4px 0;
+  animation: textGlowPulse 2.5s ease-in-out infinite;
+}
+
+.water-loader-subtext {
+  font-size: 13px;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.water-loader-text-inline {
+  font-size: 14px;
+  font-weight: 500;
+  color: #334155;
+}
+
+/* Keyframe Animations */
+@keyframes waveDriftFront {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes waveDriftBack {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes waterBob {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    transform: scale(0.95);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.9;
+  }
+}
+
+@keyframes ripplePulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.45);
+    opacity: 0;
+  }
+}
+
+@keyframes bubbleFloat {
+  0% {
+    transform: translateY(0) scale(0.6);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.9;
+  }
+  80% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-38px) scale(1.1);
+    opacity: 0;
+  }
+}
+
+@keyframes textGlowPulse {
+  0%, 100% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
