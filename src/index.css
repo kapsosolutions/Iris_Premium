@@ -329,6 +329,83 @@ input, select, textarea {
   white-space: nowrap;
 }
 
+/* Liquid Animated Button (Compact Navbar Size) */
+.button {
+  background-color: #000;
+  border: 0px;
+  outline: 0px;
+  color: #fff;
+  width: 140px;
+  height: 44px;
+  padding: 0 16px;
+  border-radius: 44px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+.liquid {
+  background-color: #2893eb;
+  width: 140px;
+  height: 48px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  box-shadow: inset 3px -3px 18px #104e81,
+              inset -3px 0px 18px #104e81;
+}
+
+.liquid::after {
+  content: '';
+  width: 320px;
+  height: 290px;
+  background: #000;
+  z-index: 1;
+  position: absolute;
+  left: -90px;
+  top: -270px;
+  border-radius: 45%;
+  animation: animate 5s linear 2s infinite;
+}
+
+.liquid::before {
+  content: '';
+  width: 320px;
+  height: 290px;
+  background-color: rgb(68, 160, 235);
+  z-index: 1;
+  position: absolute;
+  left: -90px;
+  top: -270px;
+  border-radius: 40%;
+  animation: animate 5s linear 1.8s infinite;
+}
+
+.btn-txt {
+  position: relative;
+  z-index: 1;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  letter-spacing: 0.8px;
+}
+
+@keyframes animate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
 /* Hero Banner Container */
 .hero-banner-container {
   position: relative;
@@ -406,6 +483,17 @@ input, select, textarea {
     padding: 8px 16px;
     font-size: 13.5px;
     min-height: 38px;
+  }
+
+  .site-header .button {
+    transform: scale(0.9);
+    transform-origin: right center;
+  }
+
+  @media (max-width: 420px) {
+    .site-header .button {
+      transform: scale(0.84);
+    }
   }
 
   /* Mobile Hero Banner using hero_mobile.png */

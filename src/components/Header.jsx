@@ -12,24 +12,23 @@ export default function Header() {
     <header className="site-header">
       <div className="site-header-inner">
         {/* Logo Brand Image */}
-        <a href="#" className="site-header-logo">
+        <a href="#" className="site-header-logo" aria-label="Iris Water">
           <img 
             src="/logo.png" 
             alt="Iris Water Logo" 
             className="site-header-logo-img"
           />
-          <span className="site-header-logo-text">
-            IRIS WATER
-          </span>
         </a>
 
         {/* Right Header Navigation: Order Now Button */}
         <div>
           <button 
-            className="btn-pill-primary site-header-cta"
+            type="button"
+            className="button"
             onClick={handleOrderNowClick}
           >
-            Order Now ›
+            <span className="liquid"></span>
+            <span className="btn-txt">Order Now</span>
           </button>
         </div>
       </div>
