@@ -550,7 +550,16 @@ async function sendCategoryWiseCatalog(from, selectedCatFilter = '') {
 
       // 2. Service: Book Order selected from Flow 1 (Choose Service Welcome Flow)
       if (serviceChoice.includes('book') || serviceChoice.includes('catalog')) {
-        const categoryFlowId = process.env.META_FLOW_CATEGORY_ID || '1104893332001446';
+        let categoryFlowId = '1104893332001446';
+        try {
+          const flowDoc = await FlowAsset.findOne({ assetKey: 'active_category_flow_id' });
+          if (flowDoc?.textContent) {
+            categoryFlowId = flowDoc.textContent.trim();
+          }
+        } catch {
+          categoryFlowId = '1104893332001446';
+        }
+
         const categoryHeader = await getFlowAsset('category_header', 'https://res.cloudinary.com/uurhbhgy/image/upload/v1790728594/iris_flow_images/cd43qk0hu5stkuumitvg.png');
 
         await sendInteractiveFlowMessage(

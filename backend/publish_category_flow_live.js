@@ -174,16 +174,34 @@ export async function publishCategoryFlowWithImages() {
   });
   console.log('🎉 Flow Published Successfully!', pubRes.data);
 
-  // Update .env
-  let envContent = fs.readFileSync(envPath, 'utf8');
-  if (envContent.includes('META_FLOW_CATEGORY_ID=')) {
-    envContent = envContent.replace(/META_FLOW_CATEGORY_ID=.*/g, `META_FLOW_CATEGORY_ID=${flowId}`);
-  } else {
-    envContent += `\nMETA_FLOW_CATEGORY_ID=${flowId}\n`;
+  // Persist active category flow ID to MongoDB so all servers read it dynamically
+  try {
+    await FlowAsset.findOneAndUpdate(
+      { assetKey: 'active_category_flow_id' },
+      { title: 'Active Category Flow ID', imageUrl: 'https://whatsapp.com', textContent: flowId },
+      { upsert: true, new: true }
+    );
+    console.log(`🌱 Saved active_category_flow_id=${flowId} in MongoDB!`);
+  } catch (dbErr) {
+    console.warn('Warning: Could not save active_category_flow_id to DB:', dbErr.message);
   }
-  fs.writeFileSync(envPath, envContent, 'utf8');
+
+  // Update .env if file exists (local development)
+  if (fs.existsSync(envPath)) {
+    try {
+      let envContent = fs.readFileSync(envPath, 'utf8');
+      if (envContent.includes('META_FLOW_CATEGORY_ID=')) {
+        envContent = envContent.replace(/META_FLOW_CATEGORY_ID=.*/g, `META_FLOW_CATEGORY_ID=${flowId}`);
+      } else {
+        envContent += `\nMETA_FLOW_CATEGORY_ID=${flowId}\n`;
+      }
+      fs.writeFileSync(envPath, envContent, 'utf8');
+    } catch (e) {
+      console.warn('Could not write to .env:', e.message);
+    }
+  }
   process.env.META_FLOW_CATEGORY_ID = flowId;
-  console.log(`📝 Updated META_FLOW_CATEGORY_ID=${flowId} in .env and process.env!`);
+  console.log(`📝 Updated META_FLOW_CATEGORY_ID=${flowId} in process.env!`);
 
   return { success: true, flowId, flowName };
 }
