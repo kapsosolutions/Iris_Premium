@@ -22,4 +22,32 @@ export const uploadToCloudinary = async (fileBuffer, folder = 'iris_premium', re
   });
 };
 
-export default { uploadToCloudinary };
+export const getCloudinaryPublicId = (url) => {
+  if (!url || typeof url !== 'string' || !url.includes('res.cloudinary.com')) return null;
+  try {
+    const parts = url.split('/upload/');
+    if (parts.length < 2) return null;
+    let pathPart = parts[1];
+    pathPart = pathPart.replace(/^v\d+\//, '');
+    const lastDotIndex = pathPart.lastIndexOf('.');
+    if (lastDotIndex !== -1) {
+      pathPart = pathPart.substring(0, lastDotIndex);
+    }
+    return decodeURIComponent(pathPart);
+  } catch {
+    return null;
+  }
+};
+
+export const deleteFromCloudinary = async (publicId, resourceType = 'image') => {
+  try {
+    if (!publicId) return null;
+    return await cloudinary.uploader.destroy(publicId, { resource_type: resourceType });
+  } catch (err) {
+    console.error('Failed to delete from Cloudinary:', publicId, err.message);
+    return null;
+  }
+};
+
+export default { uploadToCloudinary, getCloudinaryPublicId, deleteFromCloudinary };
+

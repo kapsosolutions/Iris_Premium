@@ -583,6 +583,31 @@ export default function AdminWhatsAppCRM({ isFullView = true }) {
     }
   }
 
+  const [deletingChat, setDeletingChat] = useState(false);
+
+  async function handleDeleteChat(phone) {
+    if (!phone) return;
+    const confirmed = window.confirm(
+      `Delete this entire chat (+${phone})?\n\nThis will permanently delete all messages and any shared images/documents completely. This cannot be undone.`
+    );
+    if (!confirmed) return;
+
+    setDeletingChat(true);
+    try {
+      await api.del(`/crm/threads/${phone}`);
+      if (active === phone) {
+        setActive(null);
+        setMessages([]);
+      }
+      await loadThreads(false);
+    } catch (err) {
+      console.error('Failed to delete chat:', err);
+      alert('Error deleting chat: ' + err.message);
+    } finally {
+      setDeletingChat(false);
+    }
+  }
+
   function scrollToBottom(smooth = true) {
     setTimeout(() => {
       if (chatScrollRef.current) {
@@ -767,6 +792,38 @@ export default function AdminWhatsAppCRM({ isFullView = true }) {
 
         <div style={{ marginLeft: 'auto', display: 'flex', gap: 12, alignItems: 'center', flexShrink: 0 }}>
           {active && <WindowTimer lastInboundAt={lastInboundAt} />}
+          {active && (
+            <button
+              type="button"
+              onClick={() => handleDeleteChat(active)}
+              disabled={deletingChat}
+              title="Delete conversation & clean all media"
+              style={{
+                width: 34,
+                height: 34,
+                borderRadius: 9999,
+                border: '1px solid rgba(192, 50, 43, 0.25)',
+                background: 'rgba(192, 50, 43, 0.06)',
+                color: C.danger,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                flexShrink: 0,
+                transition: 'all 0.15s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = C.danger;
+                e.currentTarget.style.color = '#ffffff';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'rgba(192, 50, 43, 0.06)';
+                e.currentTarget.style.color = C.danger;
+              }}
+            >
+              <IconTrash size={16} />
+            </button>
+          )}
           <button type="button" onClick={downloadContacts} disabled={exporting} style={excelBtn}>
             <IconExcel size={15} color={C.ink} />
             <span>{exporting ? 'Preparing...' : 'Download Excel'}</span>
@@ -874,20 +931,58 @@ export default function AdminWhatsAppCRM({ isFullView = true }) {
                         <span style={{ fontSize: 12, color: C.inkMuted, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 190 }}>
                           {t.lastBody || 'Interactive session'}
                         </span>
-                        {t.unreadCount > 0 && (
-                          <span style={{
-                            background: C.green,
-                            color: C.ink,
-                            fontSize: 10,
-                            fontWeight: 700,
-                            borderRadius: 9999,
-                            padding: '1px 6px',
-                            minWidth: 16,
-                            textAlign: 'center'
-                          }}>
-                            {t.unreadCount}
-                          </span>
-                        )}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                          {t.unreadCount > 0 && (
+                            <span style={{
+                              background: C.green,
+                              color: C.ink,
+                              fontSize: 10,
+                              fontWeight: 700,
+                              borderRadius: 9999,
+                              padding: '1px 6px',
+                              minWidth: 16,
+                              textAlign: 'center'
+                            }}>
+                              {t.unreadCount}
+                            </span>
+                          )}
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteChat(t._id);
+                            }}
+                            title="Delete chat"
+                            style={{
+                              width: 24,
+                              height: 24,
+                              borderRadius: 9999,
+                              border: 'none',
+                              background: 'transparent',
+                              color: C.inkMuted,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              cursor: 'pointer',
+                              flexShrink: 0,
+                              padding: 0,
+                              opacity: 0.5,
+                              transition: 'all 0.15s ease'
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.background = '#fde4e6';
+                              e.currentTarget.style.color = C.danger;
+                              e.currentTarget.style.opacity = '1';
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.background = 'transparent';
+                              e.currentTarget.style.color = C.inkMuted;
+                              e.currentTarget.style.opacity = '0.5';
+                            }}
+                          >
+                            <IconTrash size={13} />
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>

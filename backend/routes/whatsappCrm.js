@@ -15,7 +15,9 @@ import {
   uploadHeaderSample,
   sendTemplate
 } from '../services/metaService.js';
-import { uploadToCloudinary } from '../services/cloudinaryService.js';
+import { uploadToCloudinary, getCloudinaryPublicId, deleteFromCloudinary } from '../services/cloudinaryService.js';
+import fs from 'fs';
+import path from 'path';
 
 const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 25 * 1024 * 1024 } });
@@ -428,6 +430,97 @@ router.get('/messages/:phone', async (req, res) => {
     res.json({ success: true, data: normalized });
   } catch (err) {
     console.error('Error fetching chat history:', err);
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+/**
+ * Helper to delete a complete chat and all shared media/images
+ */
+async function deleteChatThread(phone) {
+  // 1. Find all messages for phone
+  const msgs = await Message.find({ phone }).lean();
+
+  // 2. Collect all media URLs
+  const mediaUrls = new Set();
+  for (const m of msgs) {
+    if (m.mediaUrl) mediaUrls.add(m.mediaUrl);
+    if (m.raw?.headerImageUrl) mediaUrls.add(m.raw.headerImageUrl);
+    if (m.raw?.outbound?.headerImageUrl) mediaUrls.add(m.raw.outbound.headerImageUrl);
+  }
+
+  // 3. Clean up media from Cloudinary and local disk
+  for (const url of mediaUrls) {
+    const pubId = getCloudinaryPublicId(url);
+    if (pubId) {
+      const isDoc = url.toLowerCase().endsWith('.pdf');
+      await deleteFromCloudinary(pubId, isDoc ? 'raw' : 'image').catch(() => {});
+    }
+
+    if (url.includes('/uploads/')) {
+      try {
+        const localPath = path.join(process.cwd(), url.replace(/^\/?/, ''));
+        if (fs.existsSync(localPath)) {
+          await fs.promises.unlink(localPath).catch(() => {});
+        }
+      } catch (err) {
+        console.error('Failed to unlink local file:', err.message);
+      }
+    }
+  }
+
+  // 4. Delete all messages from database
+  const deleteResult = await Message.deleteMany({ phone });
+
+  // 5. Clean up associated Lead record if exists
+  await Lead.findOneAndDelete({ phone }).catch(() => {});
+
+  return {
+    deletedMessagesCount: deleteResult.deletedCount,
+    deletedMediaCount: mediaUrls.size
+  };
+}
+
+/**
+ * DELETE /api/crm/threads/:phone — Completely delete chat and shared media
+ */
+router.delete('/threads/:phone', async (req, res) => {
+  try {
+    const { phone } = req.params;
+    if (!phone) {
+      return res.status(400).json({ success: false, message: 'Phone number required' });
+    }
+
+    const result = await deleteChatThread(phone);
+    res.json({
+      success: true,
+      message: `Conversation with ${phone} and all media cleaned successfully`,
+      data: result
+    });
+  } catch (err) {
+    console.error('Error deleting chat thread:', err);
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+/**
+ * DELETE /api/crm/messages/:phone — Alias for deleting complete chat
+ */
+router.delete('/messages/:phone', async (req, res) => {
+  try {
+    const { phone } = req.params;
+    if (!phone) {
+      return res.status(400).json({ success: false, message: 'Phone number required' });
+    }
+
+    const result = await deleteChatThread(phone);
+    res.json({
+      success: true,
+      message: `Conversation with ${phone} and all media cleaned successfully`,
+      data: result
+    });
+  } catch (err) {
+    console.error('Error deleting chat thread:', err);
     res.status(500).json({ success: false, message: err.message });
   }
 });
