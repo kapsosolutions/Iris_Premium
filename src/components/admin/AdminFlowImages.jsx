@@ -163,6 +163,7 @@ export default function AdminFlowImages() {
       defaultUrl: 'https://res.cloudinary.com/zavohueh/image/upload/v1787909086/iris_flow_images/n0gayi4xt3drdb1anow2.png'
     },
     { key: 'choose_service_header', title: 'Choose Service Header Image' },
+    { key: 'category_header', title: 'Select Bottle Purpose / Event Flow Header Image', defaultUrl: 'https://res.cloudinary.com/uurhbhgy/image/upload/v1790728594/iris_flow_images/cd43qk0hu5stkuumitvg.png' },
     { key: 'catalog_header', title: 'Catalogue List Header Image' },
     { key: 'my_orders_header', title: 'My Orders Header Image' },
     { key: 'track_order_header', title: 'Track Order Header Image' },

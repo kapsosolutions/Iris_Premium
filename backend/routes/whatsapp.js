@@ -551,10 +551,11 @@ async function sendCategoryWiseCatalog(from, selectedCatFilter = '') {
       // 2. Service: Book Order selected from Flow 1 (Choose Service Welcome Flow)
       if (serviceChoice.includes('book') || serviceChoice.includes('catalog')) {
         const categoryFlowId = process.env.META_FLOW_CATEGORY_ID || '1104893332001446';
+        const categoryHeader = await getFlowAsset('category_header', 'https://res.cloudinary.com/uurhbhgy/image/upload/v1790728594/iris_flow_images/cd43qk0hu5stkuumitvg.png');
 
         await sendInteractiveFlowMessage(
           from,
-          null,
+          categoryHeader,
           `🍾 *Select Bottle Purpose / Event*\n\nPlease tap below to select your category:`,
           'Select Category 🍾',
           categoryFlowId,
