@@ -11,7 +11,11 @@ import { urlToBase64 } from './services/imageBase64.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const envPath = path.join(__dirname, '.env');
-dotenv.config({ path: envPath });
+if (fs.existsSync(envPath)) {
+  dotenv.config({ path: envPath });
+} else {
+  dotenv.config();
+}
 
 const WABA_ID = process.env.WABA_ID;
 const TOKEN = process.env.META_ACCESS_TOKEN;
