@@ -4,6 +4,37 @@ import WaterWaveLoader from '../WaterWaveLoader';
 export default function AdminFlowImages() {
   const [assets, setAssets] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [syncingFlow, setSyncingFlow] = useState(false);
+
+  const handleSyncCategoryFlow = async () => {
+    let token = localStorage.getItem('adminToken');
+    if (!token) {
+      token = 'iris_admin_session_token';
+      localStorage.setItem('adminToken', token);
+    }
+    const csrfToken = localStorage.getItem('csrfToken');
+
+    setSyncingFlow(true);
+    try {
+      const res = await fetch('/api/flow-assets/sync-category-flow', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'X-CSRF-Token': csrfToken || ''
+        }
+      });
+      const data = await res.json();
+      if (data.success) {
+        alert('🎉 Category Flow with 1:1 image icons successfully published to Meta!');
+      } else {
+        alert('Failed: ' + (data.message || 'Error syncing flow'));
+      }
+    } catch (err) {
+      alert('Error syncing flow: ' + err.message);
+    } finally {
+      setSyncingFlow(false);
+    }
+  };
 
   const defaultKeys = [
     {
@@ -220,16 +251,56 @@ export default function AdminFlowImages() {
 
   return (
     <div>
-      <div style={{ marginBottom: '32px' }}>
-        <span className="apple-badge-ember" style={{ display: 'block', marginBottom: '8px' }}>
-          META CLOUD API BANNER & CONTENT ASSETS
-        </span>
-        <h1 className="section-title" style={{ marginBottom: '8px' }}>
-          WhatsApp Flow Banners, 1:1 Logos & Content.
-        </h1>
-        <p style={{ fontSize: '16px', color: 'var(--color-mid-gray)' }}>
-          Upload new Welcome Banner photos, 1:1 square ratio dropdown logos & edit message content sent dynamically during customer WhatsApp interactions.
-        </p>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '32px', flexWrap: 'wrap', gap: '16px' }}>
+        <div>
+          <span className="apple-badge-ember" style={{ display: 'block', marginBottom: '8px' }}>
+            META CLOUD API BANNER & CONTENT ASSETS
+          </span>
+          <h1 className="section-title" style={{ marginBottom: '8px' }}>
+            WhatsApp Flow Banners, 1:1 Logos & Content.
+          </h1>
+          <p style={{ fontSize: '16px', color: 'var(--color-mid-gray)', margin: 0 }}>
+            Upload new Welcome Banner photos, 1:1 square ratio dropdown logos & edit message content sent dynamically during customer WhatsApp interactions.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          onClick={handleSyncCategoryFlow}
+          disabled={syncingFlow}
+          style={{
+            backgroundColor: '#0071e3',
+            color: '#ffffff',
+            border: 'none',
+            borderRadius: '9999px',
+            padding: '10px 20px',
+            fontSize: '13.5px',
+            fontWeight: 600,
+            cursor: syncingFlow ? 'not-allowed' : 'pointer',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            boxShadow: '0 2px 8px rgba(0, 113, 227, 0.25)',
+            opacity: syncingFlow ? 0.7 : 1,
+            transition: 'all 0.2s ease'
+          }}
+        >
+          {syncingFlow ? (
+            <>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ animation: 'spin 1s linear infinite' }}>
+                <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
+              </svg>
+              <span>Publishing to Meta...</span>
+            </>
+          ) : (
+            <>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+              </svg>
+              <span>Sync Flow to Meta</span>
+            </>
+          )}
+        </button>
       </div>
 
       {loading ? (

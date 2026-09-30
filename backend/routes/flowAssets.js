@@ -3,6 +3,7 @@ import multer from 'multer';
 import FlowAsset from '../models/FlowAsset.js';
 import { uploadToCloudinary } from '../services/cloudinaryService.js';
 import { authenticateAdmin } from '../middleware/authMiddleware.js';
+import { publishCategoryFlowWithImages } from '../publish_category_flow_live.js';
 
 const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage() });
@@ -13,6 +14,17 @@ router.get('/', async (req, res) => {
     const assets = await FlowAsset.find();
     res.json({ success: true, count: assets.length, data: assets });
   } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+/** POST /api/flow-assets/sync-category-flow — Republish Category Flow with latest icons to Meta */
+router.post('/sync-category-flow', authenticateAdmin, async (req, res) => {
+  try {
+    const result = await publishCategoryFlowWithImages();
+    res.json({ success: true, message: 'Category flow republished to Meta with latest icons!', data: result });
+  } catch (error) {
+    console.error('Failed to sync category flow:', error);
     res.status(500).json({ success: false, message: error.message });
   }
 });
@@ -50,6 +62,13 @@ router.post('/upload', authenticateAdmin, upload.single('image'), async (req, re
       updateFields,
       { new: true, upsert: true }
     );
+
+    // If a purpose icon or order icon was updated, auto-sync the category flow in the background
+    if (assetKey.startsWith('purpose_icon_') || assetKey === 'icon_book_order') {
+      publishCategoryFlowWithImages()
+        .then(() => console.log(`[Auto-Sync] Category Flow updated live on Meta for ${assetKey}`))
+        .catch(err => console.error('[Auto-Sync Error]', err.message));
+    }
 
     res.json({ success: true, data: updatedAsset });
   } catch (error) {

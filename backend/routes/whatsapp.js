@@ -550,7 +550,7 @@ async function sendCategoryWiseCatalog(from, selectedCatFilter = '') {
 
       // 2. Service: Book Order selected from Flow 1 (Choose Service Welcome Flow)
       if (serviceChoice.includes('book') || serviceChoice.includes('catalog')) {
-        const categoryFlowId = process.env.META_FLOW_CATEGORY_ID || '2738549013209006';
+        const categoryFlowId = process.env.META_FLOW_CATEGORY_ID || '1104893332001446';
 
         await sendInteractiveFlowMessage(
           from,
